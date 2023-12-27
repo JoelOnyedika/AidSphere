@@ -1,0 +1,148 @@
+"use client"
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FormSchema } from "@/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+
+import Loader from "@/components/global/loader";
+import { actionLoginUser } from "@/lib/server-actions/auth-actions";
+import { useRouter } from "next/navigation";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+const Login = () => {
+  const router = useRouter();
+  const [submitError, setSubmitError] = useState("");
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    mode: 'onChange',
+    resolver: zodResolver(FormSchema),
+  });
+
+  const isLoading = form.formState.isSubmitting;
+
+  const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
+    formData
+  ) => {
+    try {
+      const error = await actionLoginUser(formData);
+      console.log(error)
+      if (error) {
+        form.reset();
+        setSubmitError(error);
+        console.log("error",error)
+      }
+      router.replace("/dashboard");  
+    } catch (error) {
+      console.log(error)
+      setSubmitError("An unexpected error occoured")
+    }
+    
+  };
+
+  return (
+    <div className="ml-auto mr-auto  bg-[#0e1425] text-white">
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="text-center">
+          <h2 className="text-[30px] font-extrabold">Login in account</h2>
+          <span>
+            Haven't signup up yet?{" "}
+            <Link href="/signup" className="text-blue-800">
+              Sign up
+            </Link>
+          </span>
+        </div>
+        <div className="bg-inherit p-6 rounded-lg shadow-md">
+          <div className="mb-5">
+            <div>
+              <Button className="w-full bg-blue-700 py-2 px-4 flex items-center hover:bg-blue-500">
+                <img src="../../../../public/icons/google.png" alt="" />
+                Sign in with Google
+              </Button>
+            </div>
+          </div>
+          <Form {...form}>
+            <form
+              className="space-y-8"
+              onChange={() => {
+                if (submitError) setSubmitError("");
+              }}
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                disabled={isLoading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        type="email"
+                        className="w-[350px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                disabled={isLoading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        {...field}
+                        type="password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="w-full bg-blue-700 hover:bg-blue-500"
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading ? <Loader /> : "Login"}
+              </Button>
+            </form>
+            <span className="self-container">
+              Don't have an account yet{" "}
+              <Link href="/signup" className="text-blue-800">
+                Create account
+              </Link>
+            </span>
+          </Form>
+          {submitError && (
+                <Alert className="bg-red-400">
+                  <AlertDescription className="text-white">{submitError}</AlertDescription>
+                </Alert>
+              )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
