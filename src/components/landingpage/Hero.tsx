@@ -25,7 +25,7 @@ const Hero = ({ doesSessionExist }: IHero) => {
         </div>
         <div className="mt-5 flex justify-center items-center">
           <Link
-            href={"/signup"}
+            href={doesSessionExist ? "/dashboard" : '/login'}
             className="rounded-full mr-5 flex bg-purple-400 p-3"
           >
             {doesSessionExist ? "Dashboard" : "Get started"}
@@ -55,7 +55,7 @@ const Hero = ({ doesSessionExist }: IHero) => {
           <div className="text-center">
             <div className="flex flex-col items-center">
               <h2 className="text-[30px] font-extrabold">
-                Live <span className="neon-blue text-[30px]">Ai</span>chat
+                Live <span className="neon-blue text-[30px]">{" "}Ai{" "}</span>chat
                 support. Trained using your{" "}
                 <span className="neon-blue text-[30px]">own data</span>
               </h2>
