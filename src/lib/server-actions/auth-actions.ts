@@ -14,16 +14,12 @@ export async function actionSignupUser({
   password,
 }: z.infer<typeof FormSchema>) {
   const supabase = createRouteHandlerClient({ cookies });
-  //BUGGED
-  const {data}  = await supabase.from("profiles").select("*")
+  const { data } = await supabase.from("users").select("*").eq("email", email);
+  console.log(data);
 
-    // .eq("email", email);
-
-  console.log(data)
-
-  if (data?.length) {
-    console.log("user exists", data);
-    return { error: { message: "User already exists"} }.toString();
+  if (data && data.length > 0) {
+    console.log("User exists", data);
+    return { error: { message: "User already exists on this email" } };
   } else {
     const response = await supabase.auth.signUp({
       email,
@@ -35,6 +31,7 @@ export async function actionSignupUser({
     return response;
   }
 }
+
 
 export async function actionLoginUser({
   email,

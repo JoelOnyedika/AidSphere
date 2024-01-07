@@ -25,7 +25,7 @@ const Hero = ({ doesSessionExist }: IHero) => {
         </div>
         <div className="mt-5 flex justify-center items-center">
           <Link
-            href={doesSessionExist ? "/dashboard" : '/login'}
+            href={doesSessionExist ? "/dashboard" : '/signup'}
             className="rounded-full mr-5 flex bg-purple-400 p-3"
           >
             {doesSessionExist ? "Dashboard" : "Get started"}

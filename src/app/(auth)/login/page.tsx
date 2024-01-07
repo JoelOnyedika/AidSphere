@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormSchema } from "@/lib/types";
+import { LoginFormSchema } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -27,30 +27,30 @@ const Login = () => {
   const router = useRouter();
   const [submitError, setSubmitError] = useState("");
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    mode: 'onChange',
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
+    mode: "onChange",
+    resolver: zodResolver(LoginFormSchema),
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
+  const onSubmit: SubmitHandler<z.infer<typeof LoginFormSchema>> = async (
     formData
   ) => {
     try {
       const error = await actionLoginUser(formData);
-      console.log(error)
+      console.log(error);
       if (error) {
         form.reset();
         setSubmitError(error);
-        console.log("error",error)
+        console.log("error", error);
+      } else {
+        router.replace("/dashboard");
       }
-      router.replace("/dashboard");  
     } catch (error) {
-      console.log(error)
-      setSubmitError("An unexpected error occoured")
+      console.log(error);
+      setSubmitError("An unexpected error occurred");
     }
-    
   };
 
   return (
@@ -59,7 +59,7 @@ const Login = () => {
         <div className="text-center">
           <h2 className="text-[30px] font-extrabold">Login in account</h2>
           <span>
-            Haven't signup up yet?{" "}
+            Haven't signed up yet?{" "}
             <Link href="/signup" className="text-blue-800">
               Sign up
             </Link>
@@ -82,63 +82,67 @@ const Login = () => {
               }}
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <FormField
-                control={form.control}
-                name="email"
-                disabled={isLoading}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email address</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        type="email"
-                        className="w-[350px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                disabled={isLoading}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Password"
-                        {...field}
-                        type="password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                className="w-full bg-blue-700 hover:bg-blue-500"
-                disabled={isLoading}
-                type="submit"
-              >
-                {isLoading ? <Loader /> : "Login"}
-              </Button>
+              <div className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  disabled={isLoading}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email address</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Email"
+                          {...field}
+                          type="email"
+                          className="w-[350px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  disabled={isLoading}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Password"
+                          {...field}
+                          type="password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  className="w-full bg-blue-700 hover:bg-blue-500"
+                  disabled={isLoading}
+                  type="submit"
+                >
+                  {isLoading ? <Loader /> : "Login"}
+                </Button>
+              </div>
             </form>
-            <span className="self-container">
-              Don't have an account yet{" "}
-              <Link href="/signup" className="text-blue-800">
-                Create account
-              </Link>
-            </span>
           </Form>
+          <span className="self-container">
+            Don't have an account yet{" "}
+            <Link href="/signup" className="text-blue-800">
+              Create account
+            </Link>
+          </span>
           {submitError && (
-                <Alert className="bg-red-400">
-                  <AlertDescription className="text-white">{submitError}</AlertDescription>
-                </Alert>
-              )}
+            <Alert className="bg-red-400">
+              <AlertDescription className="text-white">
+                {submitError}
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
       </div>
     </div>

@@ -25,10 +25,9 @@ import { useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import { MailCheck } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
+import { insertUser } from "@/lib/supabase/queries";
 
 const Signup = () => {
-  // const router = useRouter();
   const searchParams = useSearchParams();
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
@@ -49,24 +48,48 @@ const Signup = () => {
   );
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: zodResolver(FormSchema),
-    defaultValues: {email: '', password: ''}
+    defaultValues: { email: "", password: "" },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async ({ email, password }: z.infer<typeof FormSchema>) => {
-    const {error} = await actionSignupUser({ email, password });
-    console.log(error);
-    if (error) {
-      setSubmitError(error.message.toString());
+  const onSubmit = async ({
+    email,
+    password,
+    username,
+  }: z.infer<typeof FormSchema>) => {
+    try {
+      const signupResult = await actionSignupUser({ email, password });
+
+      if (signupResult.error.message) {
+        console.log("Error:", signupResult.error.message);
+        setSubmitError(signupResult.error.message)
+        form.reset()
+        return;
+      } else {
+          
+         const insertResult = await insertUser({
+          username, email,
+        });
+
+        if (insertResult instanceof Error) {
+          console.log("Error updating username:", insertResult);
+          setSubmitError("Unable to save username to database");
+          form.reset();
+          return;
+        }
+
+        setConfirmation(true);
+      }
+      
+    } catch (error) {
+      console.log("An unexpected error occurred", error);
+      setSubmitError("An unexpected error occurred");
       form.reset();
-      return;
     }
-    setConfirmation(true);
   };
-  
 
   return (
     <div className="ml-auto mr-auto  bg-[#0e1425] text-white">
@@ -93,6 +116,25 @@ const Signup = () => {
             <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
               {!confirmation && !codeExchangeError && (
                 <>
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    disabled={isLoading}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="username"
+                            {...field}
+                            type="username"
+                            className="w-[350px]"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="email"
@@ -139,7 +181,6 @@ const Signup = () => {
                   </Button>
                 </>
               )}
-              
             </form>
             <span className="self-container">
               Already have an account?{" "}
@@ -148,10 +189,10 @@ const Signup = () => {
               </Link>
             </span>
             {submitError && (
-                <Alert>
-                  <AlertDescription>{submitError}</AlertDescription>
-                </Alert>
-              )}
+              <Alert>
+                <AlertDescription>{submitError}</AlertDescription>
+              </Alert>
+            )}
             {(confirmation || codeExchangeError) && (
               <>
                 <Alert className={`${confirmationAndErrorStyles} text-white`}>

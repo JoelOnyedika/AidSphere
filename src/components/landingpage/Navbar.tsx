@@ -39,7 +39,7 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
               <NavigationMenu className="mr-5 bg-transparent">
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-xl bg-transparent">
+                    <NavigationMenuTrigger className="text-lg bg-transparent">
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -56,19 +56,19 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href={"/pricing"} className="mr-5 text-xl inline">
+                    <Link href={"/pricing"} className="mr-5 text-lg inline">
                       Pricing
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href={"/docs"} className="text-xl inline">
+                    <Link href={"/docs"} className="text-lg inline">
                       Documentation
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link
                       href="/dashboard"
-                      className="p-4 flex text-xl rounded-full inline bg-purple-400"
+                      className="p-3 flex text-lg rounded-full inline bg-purple-400"
                     >
                       {doesSessionExist ? "Dashboard" : "Get started"}
                       <MoveRight />
