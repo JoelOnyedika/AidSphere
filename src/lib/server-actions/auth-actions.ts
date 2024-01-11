@@ -50,12 +50,19 @@ export async function actionLoginUser({
   
 }
 
-export async function userSessionExist() {
-  const supabase = createRouteHandlerClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  return session ? true : false;
-}
+export async function createSessionCookie(email: string) {
+  try {
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data } = await supabase.from("users").select("*").eq("email", email);
+    const {id, username, email: userEmail} = data[0]
 
-userSessionExist();
+    cookies().set("userCookie", JSON.stringify({ username, userEmail, id }), {
+      httpOnly: true,
+      secure: true,
+    });
+
+    console.log(cookies().get('userCookie'))
+  } catch(error) {
+    console.log(error)
+  }
+}

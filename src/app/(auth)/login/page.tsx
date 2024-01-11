@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 import Loader from "@/components/global/loader";
-import { actionLoginUser } from "@/lib/server-actions/auth-actions";
+import { actionLoginUser, createSessionCookie } from "@/lib/server-actions/auth-actions";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -45,6 +45,8 @@ const Login = () => {
         setSubmitError(error);
         console.log("error", error);
       } else {
+        const {email} = formData
+        const sessionCookie = await createSessionCookie(email)
         router.replace("/dashboard");
       }
     } catch (error) {
