@@ -17,3 +17,7 @@ export const LoginFormSchema = z.object({
     .describe("Password")
     .min(5, { message: "Password must be at least 5 characters" }),
 });
+
+export const DialogFormSchema = z.object({
+  url: z.string().describe("url")
+})

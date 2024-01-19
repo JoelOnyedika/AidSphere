@@ -5,6 +5,8 @@ import { z } from "zod";
 import { FormSchema } from "../types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+const { v4: uuidv4 } = require('uuid');
 
 
 const supabase = createClient(
@@ -12,6 +14,8 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 );
+
+const myUniqueUUID = uuidv4();
 
 export async function insertUser({
   username,
@@ -81,4 +85,55 @@ export async function getUserCookies() {
   } catch(error){
     console.log(error)
   }
+}
+
+export async function addWebsiteToKnowledgebase(link: string) {
+  try {
+    // Check if the link starts with "https://"
+    if (!link.startsWith("https://")) {
+      // If not, prepend "https://"
+      link = "https://" + link;
+    }
+    const currentDate = new Date().toISOString();
+
+    const response = await fetch(link);
+    const supabaseCookie = createRouteHandlerClient({ cookies });
+
+    if (response.ok) {
+      console.log(`The website link ${link} is reachable.`);
+      const userCookie = await getUserCookies()
+      console.log(JSON.parse(userCookie.value))
+
+      const {data, error} = await supabase.from('websites').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, created_at: currentDate})
+      console.log(data)
+      if (error) {
+        console.log(error)
+        return {error: error}
+      }
+      return { data: data }
+
+    } else {
+      console.log(`The website link ${link} returned a non-ok status: ${response.status} ${response.statusText}`);
+      return {error: `The website link ${link} returned a non-ok status: ${response.status} ${response.statusText}`};
+    }
+  } catch (error) {
+    console.log(`Error checking the website link ${link}: ${error.message}`);
+  }
+}
+
+export async function getWebsiteKnowledgeBaseData() {
+  try {
+    const userCookie = await getUserCookies()
+    const { data, error } = await supabase.from('websites').select('*').eq(id, JSON.parse(userCookie.value).id)
+    if (data) {
+      console.log(data)
+      return data
+    }
+    console.log(error)
+    return error  
+  } catch(error) {
+    console.log(error)
+    return error
+  }
+  
 }

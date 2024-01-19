@@ -1,18 +1,26 @@
-import React, { useState } from "react";
-import Header from "./components/Header";
-import { Ticket} from "lucide-react";
+"use client"
 
-const Tickets = () => {
+import React, { useState } from "react";
+import Header from "@/components/dashboard/Header";
+import { Inbox, Mail} from "lucide-react";
+import Sidebar from "@/components/dashboard/Sidebar";
+
+const Emails = () => {
   const [headerData, setHeaderData] = useState({
-    icon: Ticket,
-    title: "Tickets",
-    talks: "Access and manage all your Tickets",
+    icon: Mail,
+    title: "Emails",
+    talks: "Access and manage all your Emails",
   });
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
   return (
+    <div className="flex text-white">
+    <div>
+      <Sidebar />
+    </div>
+    <div className="ml-10 flex flex-col flex-grow h-screen">  
     <div>
       <div>
         <Header headerData={headerData} />
@@ -26,7 +34,7 @@ const Tickets = () => {
           <div className="flex justify-between items-center w-full">
             <div className="flex">
               <div className="mr-2">
-                <Ticket />
+                <Inbox />
               </div>
               <div>
                 <span className="font-semibold">Untitled</span>
@@ -40,7 +48,9 @@ const Tickets = () => {
       </div>
       
     </div>
+    </div>
+  </div>
   );
 };
 
-export default Tickets;
+export default Emails;

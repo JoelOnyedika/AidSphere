@@ -24,6 +24,7 @@ export default function Home() {
     <main className="homepage-color text-white">
       <Navbar doesSessionExist={doesSessionExist} />
       <div className="flex justfiy-center items-center mt-10">
+      
         <Hero doesSessionExist={doesSessionExist} />
       </div>
     </main>

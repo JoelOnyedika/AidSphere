@@ -103,11 +103,13 @@ export const SidebarData = {
         id: 1,
         title: "Home",
         icon: Home,
+        link: "/home",
       },
       {
         id: 2,
         title: "Settings",
         icon: Settings,
+        link: "/settings",
       },
     ],
     sidebarActivity: [
@@ -115,16 +117,19 @@ export const SidebarData = {
         id: 3,
         title: "Chats",
         icon: MessagesSquare,
+        link: "/chats",
       },
       {
         id: 4,
         title: "Tickets",
         icon: Ticket,
+        link: "/tickets",
       },
       {
         id: 5,
         title: "Emails",
         icon: Mail,
+        link: "/emails",
       },
     ],
     sidebarKnowledge: [
@@ -132,21 +137,25 @@ export const SidebarData = {
         id: 6,
         title: "Websites",
         icon: Globe,
+        link: "/websites",
       },
       {
         id: 7,
         title: "Videos",
         icon: Youtube,
+        link: "/videos",
       },
       {
         id: 8,
         title: "Documents",
         icon: FileTextIcon,
+        link: "/documents",
       },
       {
         id: 9,
         title: "FAQs",
         icon: LucideMessageCircleQuestion,
+        link: "/faqs",
       },
     ],
     sidebarSetup: [
@@ -154,16 +163,19 @@ export const SidebarData = {
         id: 10,
         title: "Chatbots",
         icon: MessageCircleMore,
+        link: "/chatbots",
       },
       {
         id: 11,
         title: "Ticket Forms",
         icon: PercentDiamond,
+        link: "/ticket-forms",
       },
       {
         id: 12,
         title: "Email Inboxes",
         icon: Inbox,
+        link: "/email-inboxes",
       },
     ],
     sidebarConn: [
@@ -171,11 +183,13 @@ export const SidebarData = {
         id: 13,
         title: "Webhooks",
         icon: Webhook,
+        link: "/webhooks",
       },
       {
         id: 14,
         title: "Integrations",
         icon: Blocks,
+        link: "/integrations",
       },
     ],
     sidebarHelp: [
@@ -183,16 +197,19 @@ export const SidebarData = {
         id: 15,
         title: "Documentation",
         icon: BookText,
+        link: "/documentation",
       },
       {
         id: 16,
         title: "Discord",
         icon: Cctv,
+        link: "/discord",
       },
       {
         id: 17,
         title: "Support",
         icon: Leaf,
+        link: "/support",
       },
     ],
   },

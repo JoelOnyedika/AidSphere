@@ -70,7 +70,8 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
                       href="/dashboard"
                       className="p-3 flex text-lg rounded-full inline bg-purple-400"
                     >
-                      {doesSessionExist ? "Dashboard" : "Get started"}
+                      {/*{doesSessionExist ? "Dashboard" : "Get started"}*/}
+                    
                       <MoveRight />
                     </Link>
                   </NavigationMenuItem>

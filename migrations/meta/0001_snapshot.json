@@ -1,5 +1,5 @@
 {
-  "id": "97fe7e4c-374e-46d4-83a7-6650628c7613",
+  "id": "fb83a4b3-8013-4e87-bc97-8fc19263e8c7",
   "prevId": "cc57aa4c-7af8-48f9-9e54-c9ea3d461103",
   "version": "5",
   "dialect": "pg",
@@ -38,6 +38,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "file_id": {
+          "name": "file_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -52,7 +58,20 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set_null",
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "documents_file_id_files_file_id_fk": {
+          "name": "documents_file_id_files_file_id_fk",
+          "tableFrom": "documents",
+          "tableTo": "files",
+          "columnsFrom": [
+            "file_id"
+          ],
+          "columnsTo": [
+            "file_id"
+          ],
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
@@ -86,6 +105,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -100,7 +126,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set_null",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -161,7 +187,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set_null",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -222,7 +248,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "set_null",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
