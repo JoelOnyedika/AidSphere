@@ -18,19 +18,30 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font. The project also uses ShadCn UI and Tailwindcss for styling, it uses drizzle-orm for the ORM, it uses Supabase postgresql service for handling the SQL database
 
-## Learn More
+## THE ENV FILE
+Fill the .env file with ithe nneeded credentials
+```.env
+DATABASE_URL=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SERVICE_ROLE_KEY=
+PW=
+NEXT_PUBLIC_SITE_URL=
+```
 
-To learn more about Next.js, take a look at the following resources:
+## AUTH
+I used supabase authentication for the auth, both for signing in and login and also google auth and github auth, although not impliminted yet
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+I use cookie auth to store the user data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## ORM - DRIZZLE ORM
+I use drizzle orm to write pattern recognition and then i run the command specified in the package.json file to convert the pattern to SQL like code and then the SQL code is migrated to supabase. The configuration of drizzle is found in the `./` dir and the filename is `drizzle.config.ts`. And the file location where the pattern recognition is written is in `./src/supabase/schema.ts`, and then the migrated schema is found in `./migrations`
 
-## Deploy on Vercel
+## QUERIES
+As for queries i use supabase queries to write my queries. The location of this file is in `./src/lib/supabase/queries.ts`. There every single queries i have ever performed on supabase is found in that file. Not to be mistaken with auth queries, the auth queris are found in `./src/lib/server-actions/auth-actions.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## MIDDLEWARE
+The middleware file found in the `./` dir always check if the user is authenticated or not. Although path of the code is commented for now. That is because the code is still in development and i still need to work some things out.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

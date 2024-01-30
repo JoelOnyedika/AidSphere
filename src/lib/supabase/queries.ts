@@ -90,10 +90,10 @@ export async function getUserCookies() {
 export async function addWebsiteToKnowledgebase(link: string) {
   try {
     // Check if the link starts with "https://"
-    if (!link.startsWith("https://")) {
-      // If not, prepend "https://"
-      link = "https://" + link;
-    }
+    // if (!link.startsWith("https://")) {
+    //   // If not, prepend "https://"
+    //   link = "https://" + link;
+    // }
     const currentDate = new Date().toISOString();
 
     const response = await fetch(link);
@@ -124,16 +124,17 @@ export async function addWebsiteToKnowledgebase(link: string) {
 export async function getWebsiteKnowledgeBaseData() {
   try {
     const userCookie = await getUserCookies()
-    const { data, error } = await supabase.from('websites').select('*').eq(id, JSON.parse(userCookie.value).id)
+    const { data, error } = await supabase.from('websites').select('*').eq('user_id', JSON.parse(userCookie.value).id)
     if (data) {
       console.log(data)
-      return data
+      return {data, error: null}
     }
     console.log(error)
-    return error  
+    return {data: null, error}
   } catch(error) {
     console.log(error)
-    return error
-  }
-  
+      return {data: null, error}
+  } 
 }
+
+getWebsiteKnowledgeBaseData()

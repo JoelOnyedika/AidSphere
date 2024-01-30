@@ -47,7 +47,7 @@ const Login = () => {
       } else {
         const {email} = formData
         const sessionCookie = await createSessionCookie(email)
-        router.replace("/dashboard");
+        router.replace("/dashboard/home");
       }
     } catch (error) {
       console.log(error);
