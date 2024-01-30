@@ -178,11 +178,13 @@ const handleAddWebsite = async () => {
                 </div>
               </div>
             </div>
-            )) : (<div className="inline-flex">
+            )) : (<div className="inline-flex mt-2">
             <div className="scale-75">
               <Loader/>
             </div>
+            <div className="mt-1">
               <span>Fetching data from database. Hold on</span>
+            </div>
             </div>)}
           </div>
         </div>
