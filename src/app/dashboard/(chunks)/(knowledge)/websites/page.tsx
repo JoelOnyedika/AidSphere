@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Globe, Plus, Anchor, MinusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Header from "../../../../../components/dashboard/Header";
@@ -29,10 +29,11 @@ const Websites = () => {
   });
 
   const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<null | number>(null); // Track hovered item index
   const [websiteUrl, setWebsiteUrl] = useState("");
-  const [websiteData, setWebsiteData] = useState<string[] | null>(null)
-  const [websiteUrlMustStartWithHttps, setWebsiteUrlMustStartWithHttps] = useState(false)
+  const [websiteData, setWebsiteData] = useState<string[] | null>(null);
+  const [websiteUrlMustStartWithHttps, setWebsiteUrlMustStartWithHttps] =
+    useState(false);
   const { toast } = useToast();
 
   const fetchWebsiteData = async (): Promise<void> => {
@@ -47,7 +48,7 @@ const Websites = () => {
       console.error("Caught error in fetchWebsiteData:", error);
     }
   };
-  
+
   useEffect(() => {
     if (websiteUrl.startsWith("https://")) {
       setWebsiteUrlMustStartWithHttps(false);
@@ -61,9 +62,9 @@ const Websites = () => {
   const handleAddWebsite = async () => {
     try {
       console.log("executed");
-      console.log(websiteUrl)
+      console.log(websiteUrl);
       const result = await addWebsiteToKnowledgebase(websiteUrl);
-  
+
       if (result.error) {
         console.log(result.error);
         toast({
@@ -80,15 +81,13 @@ const Websites = () => {
       });
     }
   };
-  
 
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index); // Set hovered index
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setHoveredIndex(null); // Reset hovered index
   };
 
   const handleInputChange = (event) => {
@@ -135,7 +134,13 @@ const Websites = () => {
                         onChange={handleInputChange}
                         value={websiteUrl}
                       />
-                      <small>{websiteUrlMustStartWithHttps && <span className="text-red-500">Link should start with https://</span>}</small>
+                      <small>
+                        {websiteUrlMustStartWithHttps && (
+                          <span className="text-red-500">
+                            Link should start with https://
+                          </span>
+                        )}
+                      </small>
                     </div>
                   </div>
                 </div>
@@ -145,7 +150,7 @@ const Websites = () => {
                   </DialogClose>
                   <DialogClose>
                     <Button
-                      onClick={ handleAddWebsite}
+                      onClick={handleAddWebsite}
                       className="bg-blue-500"
                       disabled={websiteUrlMustStartWithHttps}
                     >
@@ -156,48 +161,56 @@ const Websites = () => {
               </DialogContent>
             </Dialog>
           </div>
-          {websiteData !== null ? websiteData.map((data, index) => (  
-            <div className="mb-1" key={index}>
-              <div className="pr-[90px]">
-                <div className="w-full text-gray-300 justify-between flex hover:bg-slate-700 p-2 rounded-md">
-                  <div className="flex">
-                    <Anchor className="scale-75 mr-2" />
-                    <span className="font-bold">{data.url}</span>
-                  </div>
-                  <div className="flex space-x-3">
-                    <div>
-                      <span>{data.created_at}</span>
+          {websiteData !== null ? (
+            websiteData.map((data, index) => (
+              <div className="mb-1" key={index}>
+                <div className="pr-[90px]">
+                  <div className="w-full text-gray-300 justify-between flex hover:bg-slate-700 p-2 rounded-md">
+                    <div className="flex">
+                      <Anchor className="scale-75 mr-2" />
+                      <span className="font-bold">{data.url}</span>
                     </div>
+                    <div className="flex space-x-3">
+                      <div>
+                        <span>{data.created_at}</span>
+                      </div>
 
-                    <div
-                      className="flex p-[1px] hover:bg-yellow-500 hover:text-white cursor-pointer pl-[5px] pr-[5px] box-border rounded-md bg-gray-800"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      {!isHovered ? (
-                        <React.Fragment>
-                          <MinusCircle className="scale-75 mr-1" />
-                          <span>{data.is_trained === false && "Untrained"}</span>
-                        </React.Fragment>
-                      ) : (
-                        <span>Train Model</span>
-                      )}
-                    </div>
-                    <div className="p-[1px] box-border bg-gray-800 pl-3 pr-3 rounded-md">
-                      <span>x</span>
+                      <div
+                        className="flex p-[1px] hover:bg-yellow-500 hover:text-white cursor-pointer pl-[5px] pr-[5px] box-border rounded-md bg-gray-800"
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {hoveredIndex === index ? (
+                          <React.Fragment>
+                            <MinusCircle className="scale-75 mr-1" />
+                            <span>
+                              {data.is_trained === false
+                                ? "Untrained"
+                                : "Train Model"}
+                            </span>
+                          </React.Fragment>
+                        ) : (
+                          <span>Train Model</span>
+                        )}
+                      </div>
+                      <div className="p-[1px] box-border bg-gray-800 pl-3 pr-3 rounded-md">
+                        <span>x</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="inline-flex mt-2">
+              <div className="scale-75">
+                <Loader />
+              </div>
+              <div className="mt-1">
+                <span>Fetching data from database. Hold on...🤔</span>
+              </div>
             </div>
-          )) : (<div className="inline-flex mt-2">
-            <div className="scale-75">
-              <Loader/>
-            </div>
-            <div className="mt-1">
-              <span>Fetching data from database. Hold on...🤔</span>
-            </div>
-          </div>)}
+          )}
         </div>
       </div>
     </div>
