@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Globe, Plus, Anchor, MinusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Header from "../../../../../components/dashboard/Header";
@@ -31,42 +31,56 @@ const Websites = () => {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [websiteUrl, setWebsiteUrl] = useState("");
-  const [websiteData, setWebsiteData] = useState<string[] | null>([])
+  const [websiteData, setWebsiteData] = useState<string[] | null>(null)
   const [websiteUrlMustStartWithHttps, setWebsiteUrlMustStartWithHttps] = useState(false)
-
   const { toast } = useToast();
 
-useEffect(() => {
-  const knowledgeData = async() => {
+  const fetchWebsiteData = async (): Promise<void> => {
     try {
-      const { data, error } = await getWebsiteKnowledgeBaseData();
-      if (error) {
-        console.log(error)
+      const result = await getWebsiteKnowledgeBaseData();
+      if (result.error) {
+        console.log("err", result.error);
+        setWebsiteData(null);
       }
-      console.log(data)
-      setWebsiteData(data)
-    } catch (error) {
-      console.log(error)
+      setWebsiteData(result.data);
+    } catch (error: any) {
+      console.error("Caught error in fetchWebsiteData:", error);
     }
+  };
   
-  }
-  knowledgeData()
-  
-}, [websiteUrl])
-
-const handleAddWebsite = async () => {
-  const { error, data } = await addWebsiteToKnowledgebase(websiteUrl);
-  if (websiteUrl.startsWith("https://")) {
-      setWebsiteUrlMustStartWithHttps(false)
+  useEffect(() => {
+    if (websiteUrl.startsWith("https://")) {
+      setWebsiteUrlMustStartWithHttps(false);
     } else {
-      setWebsiteUrlMustStartWithHttps(true)
+      setWebsiteUrlMustStartWithHttps(true);
     }
-  if (error) {
-    toast({
-      description: `Error: ${error}`,
-    });
-  }
-};
+
+    fetchWebsiteData();
+  }, [websiteUrl]);
+
+  const handleAddWebsite = async () => {
+    try {
+      console.log("executed");
+      console.log(websiteUrl)
+      const result = await addWebsiteToKnowledgebase(websiteUrl);
+  
+      if (result.error) {
+        console.log(result.error);
+        toast({
+          description: `Error: ${result.error}`,
+        });
+      } else {
+        setWebsiteData(null);
+        fetchWebsiteData();
+      }
+    } catch (error) {
+      console.error("Error in handleAddWebsite:", error);
+      toast({
+        description: `Error: ${error.message}`,
+      });
+    }
+  };
+  
 
 
   const handleMouseEnter = () => {
@@ -81,7 +95,6 @@ const handleAddWebsite = async () => {
     setWebsiteUrl(event.target.value);
   };
 
-
   return (
     <div className="space-y-3">
       <div className="flex text-white">
@@ -90,32 +103,31 @@ const handleAddWebsite = async () => {
         </div>
         <div className="ml-10 flex flex-col flex-grow h-screen">
           <div>
-            <div>
-              <Header headerData={headerData} />
-            </div>
-            <div>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="bg-blue-500 mt-4">
-                    <Plus className="mr-2" />
-                    Add a new website
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] bg-[#0e1425] border-none">
-                  <DialogHeader>
-                    <DialogTitle className="text-white">
-                      Add website URL
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
+            <Header headerData={headerData} />
+          </div>
+          <div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-blue-500 mt-4">
+                  <Plus className="mr-2" />
+                  Add a new website
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] bg-[#0e1425] border-none">
+                <DialogHeader>
+                  <DialogTitle className="text-white">
+                    Add website URL
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div>
+                    <Label
+                      htmlFor="name"
+                      className="text-white mb-1 text-right"
+                    >
+                      URL
+                    </Label>
                     <div>
-                      <Label
-                        htmlFor="name"
-                        className="text-white mb-1 text-right"
-                      >
-                        URL
-                      </Label>
-                      <div>  
                       <Input
                         id="name"
                         placeholder="www.aidsense.com"
@@ -124,27 +136,27 @@ const handleAddWebsite = async () => {
                         value={websiteUrl}
                       />
                       <small>{websiteUrlMustStartWithHttps && <span className="text-red-500">Link should start with https://</span>}</small>
-                      </div>
                     </div>
                   </div>
-                  <DialogFooter className="flex">
-                    <DialogClose>
-                      <Button variant="secondary">Cancel</Button>
-                    </DialogClose>
-                    <DialogClose>
-                      <Button
-                        onClick={() => handleAddWebsite}
-                        className="bg-blue-500"
-                        disabled={websiteUrlMustStartWithHttps}
-                      >
-                        Add Website
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
-            {websiteData !== null ? websiteData.map((data, index) => (  
+                </div>
+                <DialogFooter className="flex">
+                  <DialogClose>
+                    <Button variant="secondary">Cancel</Button>
+                  </DialogClose>
+                  <DialogClose>
+                    <Button
+                      onClick={ handleAddWebsite}
+                      className="bg-blue-500"
+                      disabled={websiteUrlMustStartWithHttps}
+                    >
+                      Add Website
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          {websiteData !== null ? websiteData.map((data, index) => (  
             <div className="mb-1" key={index}>
               <div className="pr-[90px]">
                 <div className="w-full text-gray-300 justify-between flex hover:bg-slate-700 p-2 rounded-md">
@@ -178,15 +190,14 @@ const handleAddWebsite = async () => {
                 </div>
               </div>
             </div>
-            )) : (<div className="inline-flex mt-2">
+          )) : (<div className="inline-flex mt-2">
             <div className="scale-75">
               <Loader/>
             </div>
             <div className="mt-1">
-              <span>Fetching data from database. Hold on</span>
+              <span>Fetching data from database. Hold on...🤔</span>
             </div>
-            </div>)}
-          </div>
+          </div>)}
         </div>
       </div>
     </div>

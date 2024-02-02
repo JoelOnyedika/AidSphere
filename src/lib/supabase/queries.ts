@@ -89,35 +89,21 @@ export async function getUserCookies() {
 
 export async function addWebsiteToKnowledgebase(link: string) {
   try {
-    // Check if the link starts with "https://"
-    // if (!link.startsWith("https://")) {
-    //   // If not, prepend "https://"
-    //   link = "https://" + link;
-    // }
     const currentDate = new Date().toISOString();
 
-    const response = await fetch(link);
-    const supabaseCookie = createRouteHandlerClient({ cookies });
+    const userCookie = await getUserCookies()
+    console.log(JSON.parse(userCookie.value))
 
-    if (response.ok) {
-      console.log(`The website link ${link} is reachable.`);
-      const userCookie = await getUserCookies()
-      console.log(JSON.parse(userCookie.value))
-
-      const {data, error} = await supabase.from('websites').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, created_at: currentDate})
-      console.log(data)
-      if (error) {
-        console.log(error)
-        return {error: error}
-      }
-      return { data: data }
-
-    } else {
-      console.log(`The website link ${link} returned a non-ok status: ${response.status} ${response.statusText}`);
-      return {error: `The website link ${link} returned a non-ok status: ${response.status} ${response.statusText}`};
+    const {data, error} = await supabase.from('websites').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, created_at: currentDate})
+    console.log(data)
+    if (error) {
+      console.log(error)
+      return {error: error}
     }
+    return { data: data }
   } catch (error) {
-    console.log(`Error checking the website link ${link}: ${error.message}`);
+    console.log(`Error while adding website to the database ${error}`);
+    return {error: `Error while adding website to the database`}
   }
 }
 
@@ -132,9 +118,10 @@ export async function getWebsiteKnowledgeBaseData() {
     console.log(error)
     return {data: null, error}
   } catch(error) {
-    console.log(error)
-      return {data: null, error}
+    console.error("Error in getWebsiteKnowledgeBaseData:", error);
+    return { data: null, error };
   } 
 }
 
 getWebsiteKnowledgeBaseData()
+
