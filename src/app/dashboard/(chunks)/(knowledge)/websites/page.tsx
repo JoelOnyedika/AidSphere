@@ -93,10 +93,7 @@ const Websites = () => {
           description: `Error: ${result.error}`,
         });
       } else {
-        toast({
-          description: `Website URL has been deleted from your knowledge sphere, ${data}`,
-        });
-        console.log(`Website URL has been deleted from your knowledge sphere, ${data}`)
+        console.log(`Website URL has been deleted from your knowledge sphere`)
         setWebsiteData(null);
         fetchWebsiteData();
       }
@@ -218,7 +215,7 @@ const Websites = () => {
                       </div>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <div className="p-[1px] box-border bg-gray-800 hover:cursor-pointer hover:bg-gray-700 pl-3 pr-3 rounded-md" onClick={() => setWebiteUrlId(data.id)}>
+                          <div className="p-[1px] box-border bg-gray-800 hover:cursor-pointer hover:bg-gray-700 pl-3 pr-3 rounded-md" onClick={() => setWebsiteUrlId(data.id)}>
                             <div className="scale-75">
                               <X />
                             </div>

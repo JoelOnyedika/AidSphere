@@ -128,7 +128,7 @@ getWebsiteKnowledgeBaseData()
 export async function deleteWebsiteInKnowledgebase(id: number) {
   try {
     const userCookie = await getUserCookies()
-    const {error} = await supabase.from("websites").select('*').eq('id', id)
+    const {error} = await supabase.from("websites").delete().eq('id', id)
 
     if (error) {
       console.log(error)
