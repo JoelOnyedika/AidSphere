@@ -1,5 +1,5 @@
 "use client";
-import { Globe, Plus, Anchor, MinusCircle } from "lucide-react";
+import { Globe, Plus, Anchor, MinusCircle, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Header from "../../../../../components/dashboard/Header";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { addWebsiteToKnowledgebase } from "@/lib/supabase/queries";
+import { addWebsiteToKnowledgebase, deleteWebsiteInKnowledgebase } from "@/lib/supabase/queries";
 import Loader from "@/components/global/loader";
 import { useToast } from "@/components/ui/use-toast";
 import { getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
@@ -34,6 +34,7 @@ const Websites = () => {
   const [websiteData, setWebsiteData] = useState<string[] | null>(null);
   const [websiteUrlMustStartWithHttps, setWebsiteUrlMustStartWithHttps] =
     useState(false);
+  const [websiteUrlId, setWebsiteUrlId] = useState<null | number>(null)
   const { toast } = useToast();
 
   const fetchWebsiteData = async (): Promise<void> => {
@@ -82,6 +83,28 @@ const Websites = () => {
     }
   };
 
+  const handleDeleteWebsite = async (id: number) => {
+    try {
+      const result = await deleteWebsiteInKnowledgebase(id);
+  
+      if (result.error) {
+        console.log(result.error);
+        toast({
+          description: `Error: ${result.error}`,
+        });
+      } else {
+        toast({
+          description: `Website URL has been deleted from your knowledge sphere, ${data}`,
+        });
+        console.log(`Website URL has been deleted from your knowledge sphere, ${data}`)
+        setWebsiteData(null);
+        fetchWebsiteData();
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+  
   const handleMouseEnter = (index) => {
     setHoveredIndex(index); // Set hovered index
   };
@@ -193,9 +216,45 @@ const Websites = () => {
                           <span>Train Model</span>
                         )}
                       </div>
-                      <div className="p-[1px] box-border bg-gray-800 pl-3 pr-3 rounded-md">
-                        <span>x</span>
-                      </div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <div className="p-[1px] box-border bg-gray-800 hover:cursor-pointer hover:bg-gray-700 pl-3 pr-3 rounded-md" onClick={() => setWebiteUrlId(data.id)}>
+                            <div className="scale-75">
+                              <X />
+                            </div>
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px] bg-[#0e1425] border-none">
+                          <DialogHeader>
+                            <DialogTitle className="text-white">
+                              Delete website URL
+                            </DialogTitle>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div>
+                              <Label
+                                htmlFor="name"
+                                className="text-white mb-1 text-right"
+                              >
+                                Are you sure you want to delete this website?
+                              </Label>
+                            </div>
+                          </div>
+                          <DialogFooter className="flex">
+                            <DialogClose>
+                              <Button variant="secondary">Cancel</Button>
+                            </DialogClose>
+                            <DialogClose>
+                              <Button
+                                onClick={() => handleDeleteWebsite(websiteUrlId)}
+                                className="bg-red-500"
+                              >
+                                Delete
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </div>
