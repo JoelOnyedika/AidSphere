@@ -6,6 +6,7 @@ import { FormSchema, websiteTable } from "../types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { extractVideoId, isValidYouTubeUrl } from "../shit-functions/functions";
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -107,10 +108,38 @@ export async function addWebsiteToKnowledgebase(link: string) {
   }
 }
 
-export async function getWebsiteKnowledgeBaseData() {
+export async function addVideoToKnowledgebase(link: string) {
+  try {
+    const currentDate = new Date().toISOString();
+
+    const isValidUrl = isValidYouTubeUrl(link)
+
+    if (isValidUrl) {
+      const videoId = extractVideoId(link)
+      console.log(videoId)
+      const userCookie = await getUserCookies()
+      console.log(JSON.parse(userCookie.value))
+  
+      const {data, error} = await supabase.from('videos').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, yt_video_id: videoId, created_at: currentDate})
+      console.log(data)
+      if (error) {
+        console.log(error)
+        return {error: error}
+      }
+      return { data: data }
+    } else {
+      return {data: null, error: "Youtube link is invalid"}
+    }
+  } catch (error) {
+    console.log(`Error while adding video to the database ${error}`);
+    return {error: `Error while adding video to the database`}
+  }
+}
+
+export async function getKnowledgeBaseData(table: websiteTable) {
   try {
     const userCookie = await getUserCookies()
-    const { data, error } = await supabase.from('websites').select('*').eq('user_id', JSON.parse(userCookie.value).id)
+    const { data, error } = await supabase.from(table).select('*').eq('user_id', JSON.parse(userCookie.value).id)
     if (data) {
       console.log(data)
       return {data, error: null}
@@ -118,12 +147,12 @@ export async function getWebsiteKnowledgeBaseData() {
     console.log(error)
     return {data: null, error}
   } catch(error) {
-    console.error("Error in getWebsiteKnowledgeBaseData:", error);
+    console.error("Error in getKnowledgeBaseData:", error);
     return { data: null, error };
   } 
 }
 
-getWebsiteKnowledgeBaseData()
+getKnowledgeBaseData('websites')
 
 export async function deleteInKnowledgebase(id: number, table: websiteTable) {
   try {

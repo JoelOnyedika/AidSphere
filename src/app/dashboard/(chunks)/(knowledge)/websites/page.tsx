@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { addWebsiteToKnowledgebase, deleteInKnowledgebase, getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
+import { addWebsiteToKnowledgebase, deleteInKnowledgebase, getKnowledgeBaseData } from "@/lib/supabase/queries";
 import Loader from "@/components/global/loader";
 import NotificationPopper from "@/components/customs/CustomNotificationPopper"; // Assuming you have a Notification component
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -39,7 +39,7 @@ const Websites = () => {
 
   const fetchWebsiteData = async (): Promise<void> => {
     try {
-      const result = await getWebsiteKnowledgeBaseData();
+      const result = await getKnowledgeBaseData('websites');
       if (result.error) {
         setNotificationMessage({mode: 'error', message:`Error: ${result.error}`});
         setShowNotificationPopper(true);

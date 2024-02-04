@@ -18,6 +18,7 @@ export const videos = pgTable("videos", {
     url: text("url"),
     userId: uuid('user_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
     isTrained: boolean('is_trained'),
+    ytVideoId: text("yt_video_id").notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 
 })
