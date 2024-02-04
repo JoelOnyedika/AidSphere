@@ -2,7 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { FormSchema } from "../types";
+import { FormSchema, websiteTable } from "../types";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
@@ -125,10 +125,10 @@ export async function getWebsiteKnowledgeBaseData() {
 
 getWebsiteKnowledgeBaseData()
 
-export async function deleteWebsiteInKnowledgebase(id: number) {
+export async function deleteInKnowledgebase(id: number, table: websiteTable) {
   try {
     const userCookie = await getUserCookies()
-    const {error} = await supabase.from("websites").delete().eq('id', id)
+    const {error} = await supabase.from(table).delete().eq('id', id)
 
     if (error) {
       console.log(error)

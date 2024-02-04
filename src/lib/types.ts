@@ -21,3 +21,5 @@ export const LoginFormSchema = z.object({
 export const DialogFormSchema = z.object({
   url: z.string().describe("url")
 })
+
+export type websiteTable = 'websites' | 'documents' | 'videos'

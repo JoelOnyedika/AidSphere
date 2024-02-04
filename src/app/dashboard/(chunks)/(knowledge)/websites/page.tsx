@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { addWebsiteToKnowledgebase, deleteWebsiteInKnowledgebase, getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
+import { addWebsiteToKnowledgebase, deleteInKnowledgebase, getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
 import Loader from "@/components/global/loader";
 import NotificationPopper from "@/components/customs/CustomNotificationPopper"; // Assuming you have a Notification component
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -85,7 +85,7 @@ const Websites = () => {
 
   const handleDeleteWebsite = async (id: number) => {
     try {
-      const result = await deleteWebsiteInKnowledgebase(id);
+      const result = await deleteInKnowledgebase(id, 'websites');
   
       if (result.error) {
         setNotificationMessage({mode: 'error', message: `Error: ${result.error}`});
@@ -216,7 +216,7 @@ const Websites = () => {
                       <Dialog>
                         <DialogTrigger asChild>
                           <div className="p-[1px] box-border bg-gray-800 hover:cursor-pointer hover:bg-gray-700 pl-3 pr-3 rounded-md" onClick={() => setWebsiteUrlId(data.id)}>
-                            <div className="scale-75">
+                            <div className="scale-95">
                               <X />
                             </div>
                           </div>
