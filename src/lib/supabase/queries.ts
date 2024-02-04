@@ -152,7 +152,6 @@ export async function getKnowledgeBaseData(table: websiteTable) {
   } 
 }
 
-getKnowledgeBaseData('websites')
 
 export async function deleteInKnowledgebase(id: number, table: websiteTable) {
   try {
