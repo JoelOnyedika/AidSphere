@@ -14,10 +14,9 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { addWebsiteToKnowledgebase, deleteWebsiteInKnowledgebase } from "@/lib/supabase/queries";
+import { addWebsiteToKnowledgebase, deleteWebsiteInKnowledgebase, getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
 import Loader from "@/components/global/loader";
-import { useToast } from "@/components/ui/use-toast";
-import { getWebsiteKnowledgeBaseData } from "@/lib/supabase/queries";
+import NotificationPopper from "@/components/customs/CustomNotificationPopper"; // Assuming you have a Notification component
 import Sidebar from "@/components/dashboard/Sidebar";
 
 const Websites = () => {
@@ -35,17 +34,21 @@ const Websites = () => {
   const [websiteUrlMustStartWithHttps, setWebsiteUrlMustStartWithHttps] =
     useState(false);
   const [websiteUrlId, setWebsiteUrlId] = useState<null | number>(null)
-  const { toast } = useToast();
+  const [showNotificationPopper, setShowNotificationPopper] = useState(false)
+  const [notificationMessage, setNotificationMessage] = useState({ mode: "", message: "" });
 
   const fetchWebsiteData = async (): Promise<void> => {
     try {
       const result = await getWebsiteKnowledgeBaseData();
       if (result.error) {
-        console.log("err", result.error);
+        setNotificationMessage({mode: 'error', message:`Error: ${result.error}`});
+        setShowNotificationPopper(true);
         setWebsiteData(null);
       }
       setWebsiteData(result.data);
     } catch (error: any) {
+      setNotificationMessage({mode: 'error', message:`Error: ${result.error}`});
+      setShowNotificationPopper(true);
       console.error("Caught error in fetchWebsiteData:", error);
     }
   };
@@ -62,24 +65,21 @@ const Websites = () => {
 
   const handleAddWebsite = async () => {
     try {
-      console.log("executed");
-      console.log(websiteUrl);
       const result = await addWebsiteToKnowledgebase(websiteUrl);
 
       if (result.error) {
-        console.log(result.error);
-        toast({
-          description: `Error: ${result.error}`,
-        });
+        setNotificationMessage({mode: 'error', message:`Error: ${result.error}`});
+        setShowNotificationPopper(true);
       } else {
+        setNotificationMessage({mode: 'success', message:`The website has been added to your knowledge sphere`});
+        setShowNotificationPopper(true);
         setWebsiteData(null);
         fetchWebsiteData();
       }
     } catch (error) {
+      setNotificationMessage({mode: 'error', message: `Error: ${error.message}`});
+      setShowNotificationPopper(true);
       console.error("Error in handleAddWebsite:", error);
-      toast({
-        description: `Error: ${error.message}`,
-      });
     }
   };
 
@@ -88,12 +88,12 @@ const Websites = () => {
       const result = await deleteWebsiteInKnowledgebase(id);
   
       if (result.error) {
-        console.log(result.error);
-        toast({
-          description: `Error: ${result.error}`,
-        });
+        setNotificationMessage({mode: 'error', message: `Error: ${result.error}`});
+        setShowNotificationPopper(true);
       } else {
-        console.log(`Website URL has been deleted from your knowledge sphere`)
+        console.log(`Website URL has been deleted from your knowledge sphere`);
+        setNotificationMessage({mode: 'success', message: `Website URL has been deleted from your knowledge sphere`});
+        setShowNotificationPopper(true);
         setWebsiteData(null);
         fetchWebsiteData();
       }
@@ -269,6 +269,13 @@ const Websites = () => {
           )}
         </div>
       </div>
+      {showNotificationPopper && (
+        <NotificationPopper
+          message={notificationMessage.message}
+          mode={notificationMessage.mode} // Assuming it's an error for simplicity
+          onClose={() => setShowNotificationPopper(false)}
+        />
+      )}
     </div>
   );
 };
