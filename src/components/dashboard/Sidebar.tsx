@@ -1,30 +1,38 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@/app/globals.css";
 import { SidebarData } from "@/lib/constants";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-
 import { useRouter } from "next/navigation";
-
+import { getUserCookies } from "@/lib/supabase/queries";
 
 const Sidebar = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const [userCookieData, setUserCookieData] = useState({username: "", email: ""})
+
+  useEffect(() => {
+    async function fetchUserCookie() {
+      const userCookie = await getUserCookies()
+      const parsedValue = JSON.parse(userCookie.value);
+      setUserCookieData({username: parsedValue.username, email: parsedValue.userEmail})
+    }
+    fetchUserCookie()
+  }, [])
+
   const { sidebar } = SidebarData;
   return (
-    <div>
+    <div className="bg-gray-900">
+      <div>
+
+          <hr />      
+      </div>
       <div className="block space-y-5 box-border overflow-y text-gray-400 bg-gray-900 p-3 font-semibold pr-10">
         <div>
           <div>
             {sidebar.sidebarBase.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
@@ -39,14 +47,17 @@ const Sidebar = () => {
 
         <div>
           <div className="mb-1">
-            <span>ACTIVITY</span>
+            <span className="text-sm text-slate-500">ACTIVITY</span>
           </div>
           <div>
             {sidebar.sidebarActivity.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
-                   onClick={() => router.push(`/dashboard${data.link}`)}
+                  onClick={() => router.push(`/dashboard${data.link}`)}
                 >
                   <div className="mb-2">
                     {<data.icon className="scale-75" />}
@@ -60,14 +71,17 @@ const Sidebar = () => {
 
         <div>
           <div className="mb-1">
-            <span>KNOWLEDGE</span>
+            <span className="text-sm text-slate-500">KNOWLEDGE</span>
           </div>
           <div>
             {sidebar.sidebarKnowledge.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
-                   onClick={() => router.push(`/dashboard${data.link}`)}
+                  onClick={() => router.push(`/dashboard${data.link}`)}
                 >
                   <div className="mb-2">
                     {<data.icon className="scale-75" />}
@@ -81,14 +95,17 @@ const Sidebar = () => {
 
         <div>
           <div className="mb-1">
-            <span>SETUP</span>
+            <span className="text-sm text-slate-500">SETUP</span>
           </div>
           <div>
             {sidebar.sidebarSetup.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
-                   onClick={() => router.push(`/dashboard${data.link}`)}
+                  onClick={() => router.push(`/dashboard${data.link}`)}
                 >
                   <div className="mb-2">
                     {<data.icon className="scale-75" />}
@@ -102,14 +119,17 @@ const Sidebar = () => {
 
         <div>
           <div className="mb-1">
-            <span>CONNECTIONS</span>
+            <span className="text-sm text-slate-500">CONNECTIONS</span>
           </div>
           <div>
             {sidebar.sidebarConn.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
-                   onClick={() => router.push(`/dashboard${data.link}`)}
+                  onClick={() => router.push(`/dashboard${data.link}`)}
                 >
                   <div className="mb-2">
                     {<data.icon className="scale-75" />}
@@ -123,14 +143,17 @@ const Sidebar = () => {
 
         <div>
           <div className="mb-1">
-            <span>HELP</span>
+            <span className="text-sm text-slate-500">HELP</span>
           </div>
           <div>
             {sidebar.sidebarHelp.map(
-              (data: { id: number; title: string; icon: any, link: string }, id: number) => (
+              (
+                data: { id: number; title: string; icon: any; link: string },
+                id: number
+              ) => (
                 <div
                   className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
-                   onClick={() => router.push(`/dashboard${data.link}`)}
+                  onClick={() => router.push(`/dashboard${data.link}`)}
                 >
                   <div className="mb-2">
                     {<data.icon className="scale-75" />}

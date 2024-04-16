@@ -18,10 +18,13 @@ import { Input } from "@/components/ui/input";
 import Sidebar from "@/components/dashboard/Sidebar";
 import {
   addVideoToKnowledgebase,
+  deleteInKnowledgebase,
   getKnowledgeBaseData,
 } from "@/lib/supabase/queries";
 import YouTubeBox from "@/components/customs/YoutubeBox";
-import Notification from '@/components/customs/CustomNotificationPopper'
+import Notification from "@/components/customs/CustomNotificationPopper";
+import Loader from "@/components/global/loader";
+
 
 const Videos = () => {
   const [headerData, setHeaderData] = useState({
@@ -46,6 +49,10 @@ const Videos = () => {
   const fetchVideoData = async (): Promise<void> => {
     try {
       const result = await getKnowledgeBaseData("videos");
+      console.log(result);
+      if (result === undefined) {
+        fetchVideoData();
+      }
       if (result.error) {
         setNotificationMessage({
           mode: "error",
@@ -79,10 +86,10 @@ const Videos = () => {
   }, [videoUrl]);
 
   const handleAddVideo = async () => {
-    console.log("triggerd")
+    console.log("triggerd");
     try {
       const result = await addVideoToKnowledgebase(videoUrl);
-      console.log(result)
+      console.log(result);
 
       if (result.error) {
         setShowNotificationPopper(true);
@@ -110,6 +117,31 @@ const Videos = () => {
     }
   };
 
+  const handleDeleteVideo = async (id: number) => {
+    try {
+      const result = await deleteInKnowledgebase(id, "videos");
+
+      if (result.error) {
+        setNotificationMessage({
+          mode: "error",
+          message: `Error: ${result.error}`,
+        });
+        setShowNotificationPopper(true);
+      } else {
+        console.log(`Video URL has been deleted from your knowledge sphere`);
+        setNotificationMessage({
+          mode: "success",
+          message: `Video URL has been deleted from your knowledge sphere`,
+        });
+        setShowNotificationPopper(true);
+        setVideoData(null);
+        fetchVideoData();
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   const handleInputChange = (event) => {
     setVideoUrl(event.target.value);
   };
@@ -125,10 +157,16 @@ const Videos = () => {
             <div className="pb-3">
               <Header headerData={headerData} />
             </div>
-            <div className="flex">
+        </div>
+        <div>
+          <div className="flex flex-wrap justify-left">
+            <div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className="p-[120px] border border-slate-700">
+                  <Button
+                    variant={"outline"}
+                    className="p-[120px] w-60 h-29 bg-slate-700 border border-slate-700"
+                  >
                     <Plus />
                     Upload
                   </Button>
@@ -174,17 +212,38 @@ const Videos = () => {
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
-              <div>
-                {videoData?.map((data, index) => (
-                  <YouTubeBox key={index} videoId={data.yt_video_id} isTrained={data.is_trained} />
-                ))}
-              </div>
             </div>
+            {videoData !== null ? (
+              videoData.map((data, index) => (
+                <div key={index} className="m-3 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+                  <YouTubeBox
+                    videoId={data.yt_video_id}
+                    isTrained={data.is_trained}
+                    onDeleteBtnClick={handleDeleteVideo}
+                    id={data.id}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="flex items-center">
+                <div className="scale-75 mr-2">
+                  <Loader />
+                </div>
+                <div className="mt-1">
+                  <span>Fetching data from the database. Hold on...🤔</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        {showNotificationPopper && 
-        <Notification message={notificationMessage.message} mode={notificationMessage.mode} />
-      }
+          </div>
+        
+        {showNotificationPopper && (
+          <Notification
+            message={notificationMessage.message}
+            mode={notificationMessage.mode}
+          />
+        )}
       </div>
     </div>
   );
