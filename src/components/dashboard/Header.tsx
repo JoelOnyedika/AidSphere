@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = ({ headerData }: any) => {
   return (
-    <div className="text-gray-400 space-y-2">
+    <div className="mt-4 pt-4 text-gray-400 space-y-2">
       <div className="mt-3 flex">
         {headerData?.icon && <headerData.icon className="mr-3 scale-75" />}
 

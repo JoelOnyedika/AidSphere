@@ -1,20 +1,20 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import Header from "@/components/dashboard/Header";
-import { FireExtinguisher, MessagesSquare, MessageCircleMore } from "lucide-react";
-import Sidebar from "@/components/dashboard/Sidebar";
+import { MessageSquare, MessageCircleMore, Plus } from "lucide-react";
 import Link from "next/link";
+import Sidebar from "@/components/dashboard/Sidebar";
+import Header from "@/components/dashboard/Header";
+import { Button } from "@/components/ui/button";
 
-const Chats = () => {
+const Chatbots = () => {
   const [headerData, setHeaderData] = useState({
-    icon: MessagesSquare,
-    title: "Chats",
-    talks: "Access and manage all your Chat sessions",
+    icon: MessageCircleMore,
+    title: "Chatbots",
+    talks: "Access and manage all your chatbots",
   });
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-
   return (
     <div className="flex text-white">
       <div>
@@ -26,10 +26,16 @@ const Chats = () => {
             <div>
               <Header headerData={headerData} />
             </div>
-            <div className="mt-10 space-y-1 mr-40">
+            <Button className="bg-blue-500 mt-4">
+              <Plus className="mr-2" />
+              Create Chatbot
+            </Button>
+            <div className="mt-2 space-y-1 mr-40">
               <Link href={"/"}>
                 <div
-                  className={`text-gray-400 p-2 rounded-md cursor-pointer hover:bg-gray-600 ${isClicked ? 'bg-gray-600' : ''}`}
+                  className={`text-gray-400 p-2 rounded-md cursor-pointer hover:bg-gray-600 ${
+                    isClicked ? "bg-gray-600" : ""
+                  }`}
                   onMouseLeave={() => setIsHovered(false)}
                   onClick={() => setIsClicked(!isClicked)}
                 >
@@ -48,9 +54,7 @@ const Chats = () => {
                   </div>
                 </div>
               </Link>
-              
             </div>
-            
           </div>
         </div>
       </div>
@@ -58,4 +62,4 @@ const Chats = () => {
   );
 };
 
-export default Chats;
+export default Chatbots;

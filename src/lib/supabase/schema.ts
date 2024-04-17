@@ -1,5 +1,11 @@
-import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp, uuid, Reference } from "drizzle-orm/pg-core";
 import { users } from "../../../migrations/schema";
+
+// constant data
+// const themes = pgTable("themes", {
+//     id: uuid('id').primaryKey(),
+
+// })
 
 
 export const websites = pgTable("websites", {
@@ -37,5 +43,17 @@ export const files = pgTable("files", {
     documentId: uuid('document_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
     fileName: text("file_name").notNull(),
     filePath: text("file_path").notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+})
+
+export const chatbot = pgTable("chatbot", {
+    fileId: uuid("file_id").primaryKey().notNull(),
+    documentId: uuid('document_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
+    chatName: text("chat_name").notNull(),
+    chatHeadline: text("chat_headline").notNull().default("Chat with out AI"),
+    chatDescription: text("chat_description").notNull().default("Ask any question let our AI answer"),
+    chatWelcomeMessage: text("chat_welcome_message").notNull().default("Hi there, I am the AI Assistant and how can i help you today"),
+    chatBrandColor: text("chat_brand_color").notNull().default("#fff"),
+    // chatTheme: 
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 })
