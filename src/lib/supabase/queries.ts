@@ -178,38 +178,40 @@ export async function deleteInKnowledgebase(id: number, table: websiteTable) {
 
 async function doesStorageBucketExist(name: string) {
   try {
-    const { data, error } = await supabase.storage.getBucket(name)
-    console.log(data, error)
-    return data
-  } catch(error) {
-    console.log(error)
-    return {data: null, error}
+    const { data, error } = await supabase.storage.getBucket(name);
+    console.log("doesStorageBucketExist", data, error);
+    return data; // Return data directly
+  } catch (error) {
+    console.error(error); // Log the error
+    return null; // Return null in case of error
   }
 }
 
 export async function createStorageBucket(name: string) {
   try {
-      const {data, error} = await supabase.storage.createBucket(name, {
-          public: false,
-          allowedMimeTypes: [],
-          fileSizeLimit: 1024
-        })
-      console.log(data, error)  
-  } catch(error) {
-    console.log(error)
-    return {data: null, error}
+    const { data, error } = await supabase.storage.createBucket(name, {
+      public: false,
+      allowedMimeTypes: [],
+      fileSizeLimit: 1024,
+    });
+    console.log("createStorageBucket",data, error);
+    return { data, error }; // Return data and error
+  } catch (error) {
+    console.error(error); // Log the error
+    return { data: null, error }; // Return null data and error
   }
 }
 
 export async function insertStorageBucket(extension: string, file: any) {
   try {
-    const doesBucketExist = await doesStorageBucketExist(extension);
-    console.log(doesBucketExist)
     let data, error;
 
-    if (doesBucketExist != null) {
+    const doesBucketExist = await doesStorageBucketExist(extension);
+    console.log("doesBucketExist", doesBucketExist);
+
+    if (doesBucketExist !== null) {
       ({ data, error } = await supabase.storage.from(extension).upload(`${uuidv4()}.${extension}`, file));
-      console.log(data)
+      console.log(data);
     } else {
       // Create new storage bucket and upload file
       const createBucket = await createStorageBucket(extension);
@@ -228,6 +230,7 @@ export async function insertStorageBucket(extension: string, file: any) {
     return { data: null, error };
   }
 }
+
 
 
 
