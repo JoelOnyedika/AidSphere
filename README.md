@@ -45,3 +45,5 @@ As for queries i use supabase queries to write my queries. The location of this 
 ## MIDDLEWARE
 The middleware file found in the `./` dir always check if the user is authenticated or not. Although path of the code is commented for now. That is because the code is still in development and i still need to work some things out.
 
+## ORM MIGRTIONS
+When migrating first create a migration schema in the supabase folder and in the file name schema and then run `npm run generate` to create a migrations script in SQL. Then run `npm run push` to make changes and then after that run the db in the lib folder by importing it in the root layout page to migrate the changes.
