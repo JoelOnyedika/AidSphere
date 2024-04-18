@@ -41,16 +41,21 @@ export const files = pgTable("files", {
 
 export const chatbot = pgTable("chatbot", {
     id: uuid("id").primaryKey().notNull(),
-    file: uuid('file').notNull().references(() => files.fileId, {onDelete: 'cascade'}),
+    //file: uuid('file').notNull().references(() => files.fileId, {onDelete: 'cascade'}),
     video: uuid('video').notNull().references(() => videos.id, {onDelete: 'cascade'}),
     document: uuid('document').notNull().references(() => documents.id, {onDelete: 'cascade'}),
-    chatName: text("chat_name").notNull(),
-    chatHeadline: text("chat_headline").notNull().default("Chat with out AI"),
-    chatDescription: text("chat_description").notNull().default("Ask any question let our AI answer"),
-    chatWelcomeMessage: text("chat_welcome_message").notNull().default("Hi there, I am the AI Assistant and how can i help you today"),
-    chatBrandColor: text("chat_brand_color").notNull().default("#fff"),
-    isChatThemeDark: boolean('is_chat_theme_dark').default(false).notNull(),
+    customization: uuid('chat_customization').references(() => chatCustomization.id),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 
 })
 
+export const chatCustomization = pgTable('chat_customization', {
+    id: uuid("id").primaryKey().notNull(),
+    name: text("chat_name").notNull(),
+    headline: text("chat_headline").notNull().default("Chat with out AI"),
+    description: text("chat_description").notNull().default("Ask any question let our AI answer"),
+    welcomeMessage: text("chat_welcome_message").notNull().default("Hi there, I am the AI Assistant and how can i help you today"),
+    brandColor: text("chat_brand_color").notNull().default("#fff"),
+    isThemeDark: boolean('is_chat_theme_dark').default(false).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+})
