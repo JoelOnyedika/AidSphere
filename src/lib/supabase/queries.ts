@@ -7,16 +7,13 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { extractVideoId, isValidYouTubeUrl } from "../shit-functions/functions";
-const { v4: uuidv4 } = require('uuid');
-import { decode } from 'base64-arraybuffer'
+const { v4: uuidv4 } = require("uuid");
 
-import {IChatbotData} from '@/interface'
-
+import { IChatbotData } from "@/lib/interface";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
 );
 
 // const myUniqueUUID = uuidv4();
@@ -84,10 +81,10 @@ export async function viewUserTable() {
 
 export async function getUserCookies() {
   try {
-    const userCookies = cookies().get("userCookie")
-    return userCookies
-  } catch(error){
-    console.log(error)
+    const userCookies = cookies().get("userCookie");
+    return userCookies;
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -95,21 +92,30 @@ export async function addWebsiteToKnowledgebase(link: string) {
   try {
     const currentDate = new Date().toISOString();
 
-    const userCookie = await getUserCookies()
-    console.log(JSON.parse(userCookie.value))
+    const userCookie = await getUserCookies();
+    console.log(JSON.parse(userCookie.value));
 
     const myUniqueUUID = uuidv4();
 
-    const {data, error} = await supabase.from('websites').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, created_at: currentDate})
-    console.log(data)
+    const { data, error } = await supabase
+      .from("websites")
+      .insert({
+        id: myUniqueUUID,
+        title: link,
+        url: link,
+        user_id: JSON.parse(userCookie.value).id,
+        is_trained: false,
+        created_at: currentDate,
+      });
+    console.log(data);
     if (error) {
-      console.log(error)
-      return {error: error}
+      console.log(error);
+      return { error: error };
     }
-    return { data: data }
+    return { data: data };
   } catch (error) {
     console.log(`Error while adding website to the database ${error}`);
-    return {error: `Error while adding website to the database`}
+    return { error: `Error while adding website to the database` };
   }
 }
 
@@ -117,62 +123,74 @@ export async function addVideoToKnowledgebase(link: string) {
   try {
     const currentDate = new Date().toISOString();
 
-    const isValidUrl = isValidYouTubeUrl(link)
+    const isValidUrl = isValidYouTubeUrl(link);
 
     if (isValidUrl) {
-      const videoId = extractVideoId(link)
-      console.log(videoId)
-      const userCookie = await getUserCookies()
-      console.log(JSON.parse(userCookie.value))
+      const videoId = extractVideoId(link);
+      console.log(videoId);
+      const userCookie = await getUserCookies();
+      console.log(JSON.parse(userCookie.value));
 
       const myUniqueUUID = uuidv4();
-  
-      const {data, error} = await supabase.from('videos').insert({id: myUniqueUUID, title: link, url: link, user_id: JSON.parse(userCookie.value).id, is_trained: false, yt_video_id: videoId, created_at: currentDate})
-      console.log(data)
+
+      const { data, error } = await supabase
+        .from("videos")
+        .insert({
+          id: myUniqueUUID,
+          title: link,
+          url: link,
+          user_id: JSON.parse(userCookie.value).id,
+          is_trained: false,
+          yt_video_id: videoId,
+          created_at: currentDate,
+        });
+      console.log(data);
       if (error) {
-        console.log(error)
-        return {error: error}
+        console.log(error);
+        return { error: error };
       }
-      return { data: data }
+      return { data: data };
     } else {
-      return {data: null, error: "Youtube link is invalid"}
+      return { data: null, error: "Youtube link is invalid" };
     }
   } catch (error) {
     console.log(`Error while adding video to the database ${error}`);
-    return {error: `Error while adding video to the database`}
+    return { error: `Error while adding video to the database` };
   }
 }
 
 export async function getKnowledgeBaseData(table: websiteTable) {
   try {
-    const userCookie = await getUserCookies()
-    const { data, error } = await supabase.from(table).select('*').eq('user_id', JSON.parse(userCookie.value).id)
+    const userCookie = await getUserCookies();
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .eq("user_id", JSON.parse(userCookie.value).id);
     if (data) {
-      console.log(data)
-      return {data, error: null}
+      console.log(data);
+      return { data, error: null };
     }
-    console.log(error)
-    return {data: null, error}
-  } catch(error) {
+    console.log(error);
+    return { data: null, error };
+  } catch (error) {
     console.error("Error in getKnowledgeBaseData:", error);
     return { data: null, error };
-  } 
+  }
 }
-
 
 export async function deleteInKnowledgebase(id: number, table: websiteTable) {
   try {
-    const userCookie = await getUserCookies()
-    const {error} = await supabase.from(table).delete().eq('id', id)
+    const userCookie = await getUserCookies();
+    const { error } = await supabase.from(table).delete().eq("id", id);
 
     if (error) {
-      console.log(error)
-      return {error}
-    } 
-    return {data: "Deleted website URL successfully", error: null}
-  } catch(error) {
-    console.error("Error in deleteWebsiteInKnowledgebase", error)
-    return {data: null, error}
+      console.log(error);
+      return { error };
+    }
+    return { data: "Deleted website URL successfully", error: null };
+  } catch (error) {
+    console.error("Error in deleteWebsiteInKnowledgebase", error);
+    return { data: null, error };
   }
 }
 
@@ -196,7 +214,7 @@ export async function createStorageBucket(name: string) {
       allowedMimeTypes: [],
       fileSizeLimit: 1024,
     });
-    console.log("createStorageBucket",data, error);
+    console.log("createStorageBucket", data, error);
     return { data, error }; // Return data and error
   } catch (error) {
     console.error(error); // Log the error
@@ -212,7 +230,9 @@ export async function insertStorageBucket(extension: string, file: any) {
     console.log("doesBucketExist", doesBucketExist);
 
     if (doesBucketExist !== null) {
-      ({ data, error } = await supabase.storage.from(extension).upload(`${uuidv4()}.${extension}`, file));
+      ({ data, error } = await supabase.storage
+        .from(extension)
+        .upload(`${uuidv4()}.${extension}`, file));
       console.log(data);
     } else {
       // Create new storage bucket and upload file
@@ -220,7 +240,9 @@ export async function insertStorageBucket(extension: string, file: any) {
       if (createBucket.error) {
         return { data: null, error: createBucket.error };
       }
-      ({ data, error } = await supabase.storage.from(extension).upload(`${uuidv4()}.${extension}`, file));
+      ({ data, error } = await supabase.storage
+        .from(extension)
+        .upload(`${uuidv4()}.${extension}`, file));
     }
 
     if (error) {
@@ -234,55 +256,69 @@ export async function insertStorageBucket(extension: string, file: any) {
 }
 
 // CHATBOTS QUERIES
+export async function createChatbot(data: IChatbotData) {
+  const myUniqueUUID = uuidv4();
+  try {
+    const { data, error } = await supabase
+      .from("chatbot")
+      .insert({
+        id: myUniqueUUID,
+        video: data.videoId,
+        document: data.documentId,
+      });
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+    return { data: null, error };
+  }
+}
 
-  export async function getAllChatbot() {
-    try {
-      const { data, error } = await supabase.from("chatbot").select("*");
-      if (error) {
-        console.error(error);
-        throw new Error("Error fetching user data from the database");
-      }
-      return { data, error: null };
-    } catch (error) {
+export async function getAllChatbot() {
+  try {
+    const { data, error } = await supabase.from("chatbot").select("*");
+    if (error) {
       console.error(error);
-      return { data: null, error };
+      throw new Error("Error fetching user data from the database");
     }
+    return { data, error: null };
+  } catch (error) {
+    console.error(error);
+    return { data: null, error };
   }
+}
 
-  export async function createChatbotInstance() {
-    const myUniqueUUID = uuidv4();
-    try {
-      const { data, error } = await supabase.from("chatbot_instance").insert({id: myUniqueUUID, name:"untitled"})
-    } catch (error) {
-      console.log(error)
-      return {data: null, error}
+export async function createChatbotInstance() {
+  const myUniqueUUID = uuidv4();
+  try {
+    const userCookie = await getUserCookies();
+    const { data, error } = await supabase
+      .from("chatbot_instance")
+      .insert({ id: myUniqueUUID, user_id: JSON.parse(userCookie.value).id,  name: "untitled" });
+    if (data) {
+      console.log(data, "bra", error)
+      return { data, error: null };
     }
+    console.log(error);
+    return { error, data: null };
+   
+  } catch (error) {
+    console.log(error);
+    return { data: null, error };
   }
+}
 
-  export async function getAllChatbotInstance() {
-    try {
-      const { data, error } = await supabase.from("chatbot_instance").select("*")
-    } catch(error ) {
-      console.log(error)
-      return{data: null, error}
+export async function getAllChatbotInstance() {
+  const userCookie = await getUserCookies();
+  try {
+    const { data, error } = await supabase.from("chatbot_instance").select("*").eq('user_id', JSON.parse(userCookie.value).id);
+    if (error) {
+      console.log(error);
+      return { error: error };
     }
+    console.log(data)
+    return { data, error: null };
+  } catch (error) {
+    console.log(error);
+    return { data: null, error };
   }
-
-  export async function createChatbot(data: ChatbotData) {
-    const myUniqueUUID = uuidv4()
-    try {
-      const { data, error } = await supabase.from('chatbot').insert({id: myUniqueUUID, video: data.videoId, document: data.documentId})
-    } catch (error) {
-      console.log(error)
-      return {data: null, error }
-    }
-  }  
-
-
-
-
-
-
-
-
-
+}

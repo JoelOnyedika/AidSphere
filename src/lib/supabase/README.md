@@ -1,0 +1,4 @@
+## QUERIES FILE AND ITS COMPLEXITY
+Whenever using the query file, whatever code you write must be a function that you want to export to another part of the app, and also the code must be strictly queries and nothing else. If you want to impliment anything with the excepthon of db queries then use the `shit-functions` folder located at the dir where the `supbase` folder is located. 
+
+Next if you want to get the User Id when using the code well you don't have to get if from scratch using the cookie you can do this by calling this function and this piece of code `const userCookie = await getUserCookies();`. The fuction is written in the queries file too and should not be modified at any cost as all other function depend on it for getting the user cookie. And also remeber that the return of the function for the user cookie is not parsed so you can use JSON to parse it. REMEMBER the file is strictly for supabase queries and nothing else.

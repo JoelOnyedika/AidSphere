@@ -1,0 +1,1 @@
+ALTER TABLE "videos" ALTER COLUMN "yt_video_id" DROP NOT NULL;

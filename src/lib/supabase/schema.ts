@@ -1,11 +1,17 @@
 import { boolean, pgTable, text, timestamp, uuid, Reference } from "drizzle-orm/pg-core";
 import { users } from "../../../migrations/schema";
+// import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+// import { cookies } from "next/headers";
+// const supabase = createRouteHandlerClient({ cookies });
+
+// const { data } = await supabase.from("users").select("*").eq("email", email);
+
 
 export const websites = pgTable("websites", {
     id: uuid("id").primaryKey().notNull(),
     title: text("title"),
     url: text("url"),
-    userId: uuid('user_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
+    userId: uuid('user_id').notNull(),
     isTrained: boolean('is_trained'),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 
@@ -15,9 +21,9 @@ export const videos = pgTable("videos", {
     id: uuid("id").primaryKey().notNull(),
     title: text("title"),
     url: text("url"),
-    userId: uuid('user_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
+    userId: uuid('user_id').notNull(),
     isTrained: boolean('is_trained'),
-    ytVideoId: text("yt_video_id").notNull(),
+    ytVideoId: text("yt_video_id"),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 
 })
@@ -25,7 +31,7 @@ export const videos = pgTable("videos", {
 export const documents = pgTable("documents", {
     id: uuid("id").primaryKey().notNull(),
     title: text("title").notNull(),
-    userId: uuid('user_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
+    userId: uuid('user_id').notNull(),
     isTrained: boolean('is_trained').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     file: uuid('file_id').notNull().references(() => files.fileId)
@@ -33,7 +39,7 @@ export const documents = pgTable("documents", {
 
 export const files = pgTable("files", {
     fileId: uuid("file_id").primaryKey().notNull(),
-    documentId: uuid('document_id').notNull().references(() => users.id, {onDelete: 'cascade'}),
+    documentId: uuid('document_id').notNull().references(() => documents.id, {onDelete: 'cascade'}),
     fileName: text("file_name").notNull(),
     filePath: text("file_path").notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
@@ -41,7 +47,6 @@ export const files = pgTable("files", {
 
 export const chatbot = pgTable("chatbot", {
     id: uuid("id").primaryKey().notNull(),
-    //file: uuid('file').notNull().references(() => files.fileId, {onDelete: 'cascade'}),
     video: uuid('video').notNull().references(() => videos.id, {onDelete: 'cascade'}),
     document: uuid('document').notNull().references(() => documents.id, {onDelete: 'cascade'}),
     website: uuid('website').notNull().references(() => websites.id, {onDelete: 'cascade'}), 
@@ -64,6 +69,8 @@ export const chatCustomization = pgTable('chat_customization', {
 
 export const chatbotInstance = pgTable("chatbot_instance", {
     id: uuid("id").primaryKey().notNull(),
-    name: text("instance_name").notNull().default("Untitled"),
+    userId: uuid('user_id').notNull(),
+    name: text("name").notNull().default("Untitled"),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
     // chatbotId: uuid("chatbot_id").references(() => chatbot.id)
 })

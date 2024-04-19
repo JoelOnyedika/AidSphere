@@ -61,6 +61,7 @@ const Signup = () => {
     username,
   }: z.infer<typeof FormSchema>) => {
     try {
+      console.log("submit btn triggered")
       const signupResult = await actionSignupUser({ email, password });
 
       if (signupResult.error.message) {
