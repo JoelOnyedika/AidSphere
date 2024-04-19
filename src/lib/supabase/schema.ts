@@ -46,11 +46,11 @@ export const chatbot = pgTable("chatbot", {
     document: uuid('document').notNull().references(() => documents.id, {onDelete: 'cascade'}),
     customization: uuid('chat_customization').references(() => chatCustomization.id),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-
 })
 
 export const chatCustomization = pgTable('chat_customization', {
     id: uuid("id").primaryKey().notNull(),
+    chatId: uuid("chat_id").notNull().references(() => chatbot.id, {onDelete: 'cascade'}),
     name: text("chat_name").notNull(),
     headline: text("chat_headline").notNull().default("Chat with out AI"),
     description: text("chat_description").notNull().default("Ask any question let our AI answer"),
