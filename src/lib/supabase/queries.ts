@@ -10,6 +10,8 @@ import { extractVideoId, isValidYouTubeUrl } from "../shit-functions/functions";
 const { v4: uuidv4 } = require('uuid');
 import { decode } from 'base64-arraybuffer'
 
+import {IChatbotData} from '@/interface'
+
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -256,6 +258,20 @@ export async function insertStorageBucket(extension: string, file: any) {
       return {data: null, error}
     }
   }
+
+  export async function getAllChatbotInstance() {
+    
+  }
+
+  export async function createChatbot(data: ChatbotData) {
+    const myUniqueUUID = uuidv4()
+    try {
+      const { data, error } = await supabase.from('chatbot').insert({id: myUniqueUUID, })
+    } catch (error) {
+      console.log(error)
+      return {data: null, error }
+    }
+  }  
 
 
 
