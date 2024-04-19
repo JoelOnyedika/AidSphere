@@ -260,13 +260,18 @@ export async function insertStorageBucket(extension: string, file: any) {
   }
 
   export async function getAllChatbotInstance() {
-    
+    try {
+      const { data, error } = await supabase.from("chatbot_instance").select("*")
+    } catch(error ) {
+      console.log(error)
+      return{data: null, error}
+    }
   }
 
   export async function createChatbot(data: ChatbotData) {
     const myUniqueUUID = uuidv4()
     try {
-      const { data, error } = await supabase.from('chatbot').insert({id: myUniqueUUID, })
+      const { data, error } = await supabase.from('chatbot').insert({id: myUniqueUUID, video: data.videoId, document: data.documentId})
     } catch (error) {
       console.log(error)
       return {data: null, error }

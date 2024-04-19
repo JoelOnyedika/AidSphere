@@ -44,6 +44,7 @@ export const chatbot = pgTable("chatbot", {
     //file: uuid('file').notNull().references(() => files.fileId, {onDelete: 'cascade'}),
     video: uuid('video').notNull().references(() => videos.id, {onDelete: 'cascade'}),
     document: uuid('document').notNull().references(() => documents.id, {onDelete: 'cascade'}),
+    website: uuid('website').notNull().references(() => websites.id, {onDelete: 'cascade'}), 
     customization: uuid('chat_customization').references(() => chatCustomization.id),
     chatbotInstanceId: uuid("chatbot_instance_id").references(() => chatbotInstance.id),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
