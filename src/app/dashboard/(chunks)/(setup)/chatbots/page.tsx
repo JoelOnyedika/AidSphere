@@ -5,6 +5,7 @@ import Link from "next/link";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Header from "@/components/dashboard/Header";
 import { Button } from "@/components/ui/button";
+import {createChatbotInstance} from '@/lib/supabase/queries'
 
 const Chatbots = () => {
   const [headerData, setHeaderData] = useState({
@@ -12,6 +13,16 @@ const Chatbots = () => {
     title: "Chatbots",
     talks: "Access and manage all your chatbots",
   });
+  getChatbots()
+  
+  async function handleBtnClick() {
+    const isUserChatbotLimitReached = false
+    if (!isUserChatbotLimitReached) {
+      const createChatbotInst = await createChatbotInstance()
+      console.log(createChatbotInst)
+    }
+    
+  }
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -37,7 +48,7 @@ const Chatbots = () => {
                     isClicked ? "bg-gray-600" : ""
                   }`}
                   onMouseLeave={() => setIsHovered(false)}
-                  onClick={() => setIsClicked(!isClicked)}
+                  onClick={() => handleBtnClick}
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex">

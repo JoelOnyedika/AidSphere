@@ -231,6 +231,32 @@ export async function insertStorageBucket(extension: string, file: any) {
   }
 }
 
+// CHATBOTS QUERIES
+
+  export async function getAllChatbot() {
+    try {
+      const { data, error } = await supabase.from("chatbot").select("*");
+      if (error) {
+        console.error(error);
+        throw new Error("Error fetching user data from the database");
+      }
+      return { data, error: null };
+    } catch (error) {
+      console.error(error);
+      return { data: null, error };
+    }
+  }
+
+  export async function createChatbotInstance() {
+    const myUniqueUUID = uuidv4();
+    try {
+      const { data, error } = await supabase.from("chatbot_instance").insert({id: myUniqueUUID, name:"untitled"})
+    } catch (error) {
+      console.log(error)
+      return {data: null, error}
+    }
+  }
+
 
 
 

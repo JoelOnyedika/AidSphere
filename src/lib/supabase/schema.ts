@@ -45,6 +45,7 @@ export const chatbot = pgTable("chatbot", {
     video: uuid('video').notNull().references(() => videos.id, {onDelete: 'cascade'}),
     document: uuid('document').notNull().references(() => documents.id, {onDelete: 'cascade'}),
     customization: uuid('chat_customization').references(() => chatCustomization.id),
+    chatbotInstanceId: uuid("chatbot_instance_id").references(() => chatbotInstance.id),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 })
 
@@ -58,4 +59,10 @@ export const chatCustomization = pgTable('chat_customization', {
     brandColor: text("chat_brand_color").notNull().default("#fff"),
     isThemeDark: boolean('is_chat_theme_dark').default(false).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+})
+
+export const chatbotInstance = pgTable("chatbot_instance", {
+    id: uuid("id").primaryKey().notNull(),
+    name: text("instance_name").notNull().default("Untitled"),
+    // chatbotId: uuid("chatbot_id").references(() => chatbot.id)
 })

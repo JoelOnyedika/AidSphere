@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import db from "@/lib/supabase/db";
 const inter = Inter({ subsets: ["latin"] });
 
-console.log(db)
+//console.log(db)
 
 export const metadata: Metadata = {
   title: "Home",
