@@ -41,3 +41,7 @@ export function extractVideoId(url: string) {
 export function getFileExtension(filename) {
     return filename.split('.').pop().toLowerCase();
 }
+
+export function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

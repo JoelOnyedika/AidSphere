@@ -214,3 +214,27 @@ export const SidebarData = {
     ],
   },
 };
+
+export const ChatbotUITabsData = [
+  {
+    id: 1,
+    name: "chatbot"
+  }, 
+  {
+    id: 2,
+    name: "knowledge"
+  }, {
+    id: 3,
+    name: "behivour"
+  }, {
+    id: 4,
+    name: "connections"
+  }, {
+    id: 5,
+    name: "settings"
+  }, {
+    id: 6,
+    name: "install"
+  }, 
+  
+]
