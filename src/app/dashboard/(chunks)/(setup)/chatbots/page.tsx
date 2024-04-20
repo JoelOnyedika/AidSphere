@@ -100,7 +100,7 @@ const Chatbots = () => {
                 </span>
               ) : (
                 chatbotInstanceData.map((data: any, index: number) => (
-                  <Link key={index} href={"/"}>
+                  <Link key={index} href={`/dashboard/chatbots/${data.id}`}>
                     {" "}
                     <div
                       className={`text-gray-400 p-2 rounded-md cursor-pointer hover:bg-gray-600 ${

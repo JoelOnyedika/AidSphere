@@ -30,7 +30,6 @@ const [error, setError] = useState("");
       const { data, error: any } = await getAllChatbotInstance();
       if (error) {
         setError(error);
-        return;
       }
       if (data) {
         setChatbotInstanceData(data);
@@ -54,7 +53,7 @@ const [error, setError] = useState("");
             <div>
               <Header headerData={headerData} />
             </div>
-            <div className="mt-10 space-y-1 mr-40">
+            <div className="mt-3 space-y-1 mr-40">
             {chatbotInstanceData === null ? (
                 <div className="inline-flex mt-2">
                 <div className="scale-75">
@@ -70,7 +69,7 @@ const [error, setError] = useState("");
                 </span>
               ) : (
                 chatbotInstanceData.map((data: any, index: number) => (
-                  <Link key={index} href={"/"}>
+                  <Link key={index} href={'/'}>
                     {" "}
                     <div
                       className={`text-gray-400 p-2 rounded-md cursor-pointer hover:bg-gray-600 ${
