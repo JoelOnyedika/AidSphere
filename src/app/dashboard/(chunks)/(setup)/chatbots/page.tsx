@@ -24,7 +24,6 @@ const Chatbots = () => {
   const [error, setError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [chatbotCreationLoading, setChatbotCreationLoading] = useState(false)
 
   useEffect(() => {
     allChatbotInstance();
