@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Tab from "./ui/Tab";
+import Chat from "./ui/Chat";
 
 const ChatbotInterface = () => {
   return (
@@ -16,7 +17,7 @@ const ChatbotInterface = () => {
       <div>
         <Sidebar />
       </div>
-      <div className="ml-10 mt-10 flex flex-col flex-grow">
+      <div className="ml-10 mt-10 flex flex-col flex-grow mr-10">
         <div className="flex text-gray-300">
           <div>
             <MessageCircleMore className="mr-3" />
@@ -51,9 +52,15 @@ const ChatbotInterface = () => {
             <hr className="border-t border-gray-600" />
           </div>
         </div>
-        <div className="mt-10">
-          <Tab />
+        <div className="mt-10 flex w-full justify-between">
+          <div>
+            <Tab />
+          </div>
+          <div>
+            <Chat />
+          </div>
         </div>
+        
       </div>
     </div>
   );
