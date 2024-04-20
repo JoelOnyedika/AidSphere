@@ -287,25 +287,54 @@ export async function getAllChatbot() {
   }
 }
 
+export async function getOneChatbotInstance(id: any) {
+  const userCookie = await getUserCookies();
+  try {
+    const { data, error } = await supabase.from("chatbot_instance").select("*").eq('id', id);
+    if (error) {
+      console.log(error);
+      return { error: error };
+    }
+    console.log(data)
+    return { data, error: null };
+  } catch (error) {
+    console.log(error);
+    return { data: null, error };
+  }
+}
+
 export async function createChatbotInstance() {
   const myUniqueUUID = uuidv4();
   try {
     const userCookie = await getUserCookies();
     const { data, error } = await supabase
       .from("chatbot_instance")
-      .insert({ id: myUniqueUUID, user_id: JSON.parse(userCookie.value).id,  name: "untitled" });
+      .insert({ id: myUniqueUUID, user_id: JSON.parse(userCookie.value).id,  name: "Untitled" });
+    if (error) {
+      console.error("Error creating chatbot instance:", error.message);
+      return { data: null, error };
+    }
     if (data) {
-      console.log(data, "bra", error)
+      console.log("Chatbot instance created successfully:", data);
       return { data, error: null };
     }
-    console.log(error);
-    return { error, data: null };
-   
+    return {data: null, error: null}
+
+    // since supabase refused to return any data or error, we will check for the data ourselves
+    const { data2, err } = getOneChatbotInstance(myUniqueUUID)
+    if (data2) {
+      return { data2, error: null }; 
+    }
+    if (error) {
+      console.error("Error creating chatbot instance:", err.message);
+      return { data: null, err };
+    }
   } catch (error) {
-    console.log(error);
+    console.error("Error creating chatbot instance:", error);
     return { data: null, error };
   }
 }
+
 
 export async function getAllChatbotInstance() {
   const userCookie = await getUserCookies();
@@ -322,3 +351,5 @@ export async function getAllChatbotInstance() {
     return { data: null, error };
   }
 }
+
+

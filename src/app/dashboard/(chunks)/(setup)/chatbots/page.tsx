@@ -10,7 +10,6 @@ import {
   getAllChatbotInstance,
 } from "@/lib/supabase/queries";
 import Loader from "@/components/global/loader";
-import { set } from "zod";
 
 const Chatbots = () => {
   const [headerData, setHeaderData] = useState({
@@ -21,53 +20,49 @@ const Chatbots = () => {
 
   const [chatbotInstanceData, setChatbotInstanceData] = useState<
     null | string[]
-  >([]);
+  >(null);
   const [error, setError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [chatbotCreationLoading, setChatbotCreationLoading] = useState(false)
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   useEffect(() => {
-    async function allChatbotInstance() {
-      try {
-        const { data, error: any } = await getAllChatbotInstance();
-        if (error) {
-          setError(error);
-          return;
-        }
-        if (data) {
-          setChatbotInstanceData(data);
-          console.log(data);
-        }
-      } catch (error: any) {
-        console.log(error);
-        setError(error);
-      }
-    }
     allChatbotInstance();
   }, []);
 
-  async function onClick() {
+  async function allChatbotInstance() {
+    try {
+      const { data, error: any } = await getAllChatbotInstance();
+      if (error) {
+        setError(error);
+        return;
+      }
+      if (data) {
+        setChatbotInstanceData(data);
+        console.log(data);
+      }
+
+    } catch (error: any) {
+      console.log(error);
+      setError(error);
+    }
+  }
+
+  async function handleSubmit() {
     try {
       console.log('triggered')
-      // setIsButtonDisabled(true)
-      const isUserChatbotLimitReached = false;
-      if (!isUserChatbotLimitReached) {
         const { data, error: any } = await createChatbotInstance();
         if (error) {
           setError(error);
-          // setIsButtonDisabled(false)
           return;
         }
         if (data) {
           console.log(data);
-          // allChatbotInstance();
-          // setIsButtonDisabled(false)
+          allChatbotInstance();
         }
-      }
+        setChatbotInstanceData(null)
+        allChatbotInstance();
     } catch (error: any) {
-      // setIsButtonDisabled(false)
       console.log(error, "asdf");
       setError(error);
       return;
@@ -85,32 +80,25 @@ const Chatbots = () => {
             <div>
               <Header headerData={headerData} />
             </div>
-            <Button className="bg-blue-500 mt-4" onClick={onClick} disabled={isButtonDisabled}>
-              {isButtonDisabled ? (
-                <>
-                  <Loader className="mr-2" />
-                  <span>Creating Chatbot</span>
-                </>
-              ) : (
-                <>
+            <Button className="bg-blue-500 mt-4" onClick={handleSubmit}>
                   <Plus className="mr-2" />
-                  <span>Create Chatbot</span>
-                </>
-                
-              )}
-              
+                  <span>Create Chatbot</span>  
             </Button>
             <div className="mt-2 space-y-1 mr-40">
               {chatbotInstanceData === null ? (
-                <div className="flex justify-between">
+                <div className="inline-flex mt-2">
+                <div className="scale-75">
                   <Loader />
-                  <span>Searching for your chatbots, please wait...</span>
                 </div>
+                <div className="mt-1">
+                  <span>Searching for your chatbots, Hold on...🤔</span>
+                </div>
+              </div>
               ) : chatbotInstanceData.length === 0 ? (
-                <small>
+                <span>
                   Whoops, you have not created any chatbots yet, Click on the
                   create button to create one
-                </small>
+                </span>
               ) : (
                 chatbotInstanceData.map((data: any, index: number) => (
                   <Link key={index} href={"/"}>
