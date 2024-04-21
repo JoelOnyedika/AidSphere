@@ -25,7 +25,7 @@ const Sidebar = () => {
 
           <hr />      
       </div>
-      <div className="block space-y-5 box-border overflow-y text-gray-400 bg-gray-900 p-3 font-semibold pr-10">
+      <div className="block space-y-5 box-border overflow-y text-gray-400 font-medium bg-gray-900 p-3 pr-10">
         <div>
           <div>
             {sidebar.sidebarBase.map(

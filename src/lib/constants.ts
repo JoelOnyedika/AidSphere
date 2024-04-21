@@ -238,3 +238,48 @@ export const ChatbotUITabsData = [
   }, 
   
 ]
+
+export const ChatUIBrandColors = [
+  {
+    id: 1,
+    rgbValue: "59, 130, 246"
+  },
+  {
+    id: 2,
+    rgbValue: "0, 119, 54"
+  },
+  {
+    id: 3,
+    rgbValue: "192, 132, 252"
+  },
+  {
+    id: 4,
+    rgbValue: "216, 130, 0"
+  },
+  {
+    id: 5,
+    rgbValue: "245, 158, 11"
+  },
+  {
+    id: 6,
+    rgbValue: "239, 68, 68"
+  },
+  {
+    id: 7,
+    rgbValue: "139, 92, 246"
+  },
+  {
+    id: 8,
+    rgbValue: "1107, 114, 128"
+  },
+  {
+    id: 9,
+    rgbValue: "29, 78, 216"
+  },
+  {
+    id: 10,
+    rgbValue: "4, 120, 87"
+  },
+  
+  
+]
