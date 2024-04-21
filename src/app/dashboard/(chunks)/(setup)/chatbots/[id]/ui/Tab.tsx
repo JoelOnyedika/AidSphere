@@ -5,6 +5,7 @@ import { ChatbotUITabsData } from "@/lib/constants";
 import { capitalizeFirstLetter } from "@/lib/shit-functions/functions";
 import TChatbot from "./tabcomponents/TChatbot";
 import TSettings from "./tabcomponents/TSettings";
+import TKnowledge from "./tabcomponents/TKnowledge";
 
 const Tab = () => {
   const { setTheme } = useTheme();
@@ -34,6 +35,8 @@ const renderContent = (tabValue: string) => {
       return (
         <TChatbot />
       );
+    case "knowledge":
+      return (<TKnowledge />)
     case "settings":
       return (
         <TSettings />
