@@ -45,12 +45,15 @@ const TSettings = () => {
         <Switch />
       </div>
 
-      <div className="grid w-full max-w-sm gap-1.5">
-        
-        <Label htmlFor="chatbotid" className="text-red-400 font-semibold">
-          Area of No return
-        </Label>
-        <Button><Trash2 />Delete Chatbot</Button>
+      <div className="grid max-w-sm items-center gap-1.5">
+        <div>
+          <Label htmlFor="chatbotid" className="text-red-400 font-semibold">
+            Area of No return
+          </Label>
+        </div>
+        <div>
+          <Button variant={"destructive"} ><Trash2 className="mr-2 h-4 w-4"/>Delete Chatbot</Button>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { capitalizeFirstLetter } from "@/lib/shit-functions/functions";
 import TChatbot from "./tabcomponents/TChatbot";
 import TSettings from "./tabcomponents/TSettings";
 import TKnowledge from "./tabcomponents/TKnowledge";
+import TBehivour from "./tabcomponents/TBehivour";
 
 const Tab = () => {
   const { setTheme } = useTheme();
@@ -37,6 +38,8 @@ const renderContent = (tabValue: string) => {
       );
     case "knowledge":
       return (<TKnowledge />)
+    case "behivour":
+      return <TBehivour/>
     case "settings":
       return (
         <TSettings />
