@@ -20,20 +20,23 @@ const Chat = () => {
           </button>
         </div>
       </div>
-
       <div className="p-4">
-        <div className="flex justify-end mb-2">
-          <div className="bg-blue-500 text-white rounded-lg py-2 px-4">
-            Hello vhat with our chtbot pls
+        <div>
+          {/* Right Chatbox */}
+          <div className="flex justify-end mb-2">
+            <div className="bg-blue-500 text-white rounded-lg py-2 px-4">
+              Hello vhat with our chtbot pls
+            </div>
           </div>
-        </div>
-        <div className="flex justify-start mb-2">
-          <div className="bg-blue-500 text-white max-w-2/3 break-words rounded-lg py-2 px-4">
-            Hello vhat with our chtbot pls
+          {/* Left Chatbox */}
+          <div className="flex justify-start mb-2">
+            <div className="bg-blue-500 text-white max-w-2/3 break-words rounded-lg py-2 px-4">
+              Hello vhat with our chtbot pls
+            </div>
           </div>
         </div>
 
-        <div className=" p-4 ">
+        <div className="p-4 justify-bottom">
           <Input className="w-full text-black rounded-lg focus:outline-none focus:border-blue-500" />
         </div>
       </div>
