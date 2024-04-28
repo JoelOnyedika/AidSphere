@@ -283,3 +283,7 @@ export const ChatUIBrandColors = [
   
   
 ]
+
+export const TConnectionData = [
+  'FAQs', 'Ticket Form'
+]

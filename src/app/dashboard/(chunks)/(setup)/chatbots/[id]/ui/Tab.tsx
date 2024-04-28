@@ -7,6 +7,8 @@ import TChatbot from "./tabcomponents/TChatbot";
 import TSettings from "./tabcomponents/TSettings";
 import TKnowledge from "./tabcomponents/TKnowledge";
 import TBehivour from "./tabcomponents/TBehivour";
+import TConnection from "./tabcomponents/TConnection";
+import TInstall from "./tabcomponents/TInstall";
 
 const Tab = () => {
   const { setTheme } = useTheme();
@@ -40,6 +42,10 @@ const renderContent = (tabValue: string) => {
       return (<TKnowledge />)
     case "behivour":
       return <TBehivour/>
+    case 'connections':
+      return <TConnection />
+      case 'install':
+        return <TInstall />
     case "settings":
       return (
         <TSettings />
