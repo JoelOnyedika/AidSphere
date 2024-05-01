@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,21 +16,34 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-import { useTheme } from "next-themes";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRecoilState } from "recoil";
+import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState, chatHeadlineTextState, chatLogoState, chatWelcomeMessageTextState } from "@/lib/recoil/atoms";
 
 const TChatbot = () => {
   const [selectedBackgroundColor, setSelectedBackgroundColor] =
     useState("255, 255, 255");
-  const [chatData, setChatData] = useState({
-    headline: "",
-    description: "",
-    welcomeMessage: "",
-  });
-  console.log(setChatData);
   const [position, setPosition] = React.useState("bottom");
-  const { setTheme } = useTheme();
-  const [backgroundTheme, setBackgroundTheme] = useState("light");
+  const [chatHeadline, setChatHeadline] = useRecoilState(chatHeadlineTextState)
+  const [chatDescription, setChatDescription] = useRecoilState(chatDescriptionTextState)
+  const [chatWelcomeMessage, setChatWelcomeMessage] = useRecoilState(chatWelcomeMessageTextState)
+  const [chatBrandColors, setChatBrandColors] = useRecoilState(chatBrandColorState)
+  const [chatBackgroundTheme, setChatBackgroundTheme] = useRecoilState(chatBackgroundThemeState)
+  const [chatLogo, setChatLogo] = useRecoilState(chatLogoState)
+
+  const fileInputRef = useRef(null);
+
+  const handleAvatarClick = () => {
+    // Trigger click event of the file input
+    fileInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    // Handle image change and set the image to the state
+    const imageFile = event.target.files[0];
+    setChatLogo(URL.createObjectURL(imageFile));
+  };
 
   return (
     <div className="space-y-11">
@@ -43,8 +56,8 @@ const TChatbot = () => {
         </Label>
         <Input
           id="headline"
-          value={chatData.headline}
-          onChange={(e) => setChatData(e.target.value)}
+          value={chatHeadline}
+          onChange={(e) => setChatHeadline(e.target.value)}
           className="w-full"
           type="text"
           placeholder="Chat with our AI"
@@ -61,8 +74,8 @@ const TChatbot = () => {
           id="description"
           type="text"
           placeholder="Ask any question and our AI will answer!"
-          onChange={(e) => setChatData(e.target.value)}
-          value={chatData.description}
+          onChange={(e) => setChatDescription(e.target.value)}
+          value={chatDescription}
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -76,8 +89,8 @@ const TChatbot = () => {
           id="message-2"
           cols={5}
           rows={4}
-          onChange={(e) => setChatData(e.target.value)}
-          value={chatData.welcomeMessage}
+          onChange={(e) => setChatWelcomeMessage(e.target.value)}
+          value={chatWelcomeMessage}
         />
       </div>
       <div>
@@ -87,7 +100,7 @@ const TChatbot = () => {
             {ChatUIBrandColors.map((rgb, index) => (
               <span
                 key={index}
-                onClick={() => setSelectedBackgroundColor(rgb.rgbValue)}
+                onClick={() => setChatBrandColors(rgb.rgbValue)}
                 style={{
                   backgroundColor: `rgb(${rgb.rgbValue})`,
                   width: "50px",
@@ -113,12 +126,12 @@ const TChatbot = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem
-                  onClick={() => setBackgroundTheme(setTheme("light"))}
+                  onClick={() => setChatBackgroundTheme("light")}
                 >
                   Light
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => setBackgroundTheme(setTheme("dark"))}
+                  onClick={() => setChatBackgroundTheme("dark")}
                 >
                   Dark
                 </DropdownMenuItem>
@@ -145,11 +158,18 @@ const TChatbot = () => {
       </div>
       <div>
       <Label className="text-gray-400 font-bold">Logo</Label>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </div>
+      <Avatar className="cursor-pointer" onClick={handleAvatarClick}>
+        <AvatarImage src={chatLogo} alt="Aidsphere logo" />
+        <AvatarFallback>AS</AvatarFallback>
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          onChange={handleImageChange}
+          style={{ display: 'none' }}
+        />
+      </Avatar>
+    </div>
     </div>
   );
 };

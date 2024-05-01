@@ -4,6 +4,7 @@ import "./globals.css";
 import React from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import db from "@/lib/supabase/db";
+import RecoilContextProvider from "@/lib/recoil/recoilContextProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 //console.log(db)
@@ -26,7 +27,7 @@ export default function RootLayout({
         defaultTheme="dark"
         enableSystem
         disableTransitionOnChange>
-        {<div className="max-w-[2440px] ml-auto mr-auto">{children}</div>}
+        {<div className="max-w-[2440px] ml-auto mr-auto"><RecoilContextProvider>{children}</RecoilContextProvider></div>}
         </ThemeProvider>
       </body>
     </html>

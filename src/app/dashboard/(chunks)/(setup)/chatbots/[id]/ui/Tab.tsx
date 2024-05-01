@@ -3,12 +3,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "next-themes";
 import { ChatbotUITabsData } from "@/lib/constants";
 import { capitalizeFirstLetter } from "@/lib/shit-functions/functions";
-import TChatbot from "./tabcomponents/TChatbot";
-import TSettings from "./tabcomponents/TSettings";
-import TKnowledge from "./tabcomponents/TKnowledge";
-import TBehivour from "./tabcomponents/TBehivour";
-import TConnection from "./tabcomponents/TConnection";
-import TInstall from "./tabcomponents/TInstall";
+import TChatbot from "./(tabcomponents)/TChatbot";
+import TSettings from "./(tabcomponents)/TSettings";
+import TKnowledge from "./(tabcomponents)/TKnowledge";
+import TBehivour from "./(tabcomponents)/TBehivour";
+import TConnection from "./(tabcomponents)/TConnection";
+import TInstall from "./(tabcomponents)/TInstall";
 
 const Tab = () => {
   const { setTheme } = useTheme();
