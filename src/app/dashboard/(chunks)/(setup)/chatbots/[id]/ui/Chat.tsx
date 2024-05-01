@@ -7,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState, chatHeadlineTextState, chatLogoState, chatWelcomeMessageTextState } from "@/lib/recoil/atoms";
+import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState, chatHeadlineTextState, chatLogoState, chatOrientationState, chatWelcomeMessageTextState } from "@/lib/recoil/atoms";
 import { Send } from "lucide-react";
 import React, { useEffect } from "react";
 import { useRecoilValue, selector } from "recoil";
@@ -56,8 +56,16 @@ const Chat = () => {
   const chatLogoStateSelector = selector({
     key: 'chatLogo',
     get: ({get}) => {
-      const theme: string = get(chatLogoState)
-      return theme
+      const logo: string = get(chatLogoState)
+      return logo
+    }
+  })
+
+  const chatOrientationStateSelector = selector({
+    key: 'chatOrientation',
+    get: ({get}) => {
+      const orientation: string = get(chatOrientationState)
+      return orientation
     }
   })
 
@@ -67,6 +75,7 @@ const Chat = () => {
   const chatBrandColor = useRecoilValue(chatBrandColorStateSelector)
   const chatBackgroundTheme = useRecoilValue(chatBackgroundThemeStateSelector)
   const chatLogo = useRecoilValue(chatLogoStateSelector)
+  const chatOrientation = useRecoilValue(chatOrientationStateSelector)
 
   return  (
     <div  className={`${chatBackgroundTheme === "light" ? "bg-white" : "bg-slate-800"} rounded-2xl overflow-hidden w-[470px] h-[700px] flex flex-col`}>
@@ -84,7 +93,8 @@ const Chat = () => {
         </div>
       </div>
       <div className="p-4 flex-grow">
-        <div className="space-y-8">
+        {chatOrientation === "right" ? (
+          <div className="space-y-8">
           {/* Right Chatbox */}
           <div className="flex justify-end mb-2">
             <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-lg rounded-tl-lg p-4">
@@ -102,6 +112,28 @@ const Chat = () => {
             </div>
           </div>
         </div>
+        ) : (
+          <div className="space-y-8">
+          {/* Left Chatbox */}
+          <div className="flex justify-start mb-2">
+            <Avatar className="mr-2">
+              <AvatarImage src={chatLogo} alt="aidsphere logo" />
+              <AvatarFallback>AS</AvatarFallback>
+            </Avatar>
+            <div style={{background: `rgb(${chatBrandColor})`}} className="rounded-b-lg rounded-tr-lg text-white max-w-2/3 break-words p-4">
+              Hello chat with our chatbot please
+            </div>
+          </div>
+          {/* Right Chatbox */}
+          <div className="flex justify-end mb-2">
+            <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-lg rounded-tl-lg p-4">
+              {chatWelcomeMessage}
+            </div>
+          </div>
+          
+        </div>
+        )}
+        
       </div>
       <div className="m-4 rounded-lg border border-solid border-gray-700 flex">
         <Input

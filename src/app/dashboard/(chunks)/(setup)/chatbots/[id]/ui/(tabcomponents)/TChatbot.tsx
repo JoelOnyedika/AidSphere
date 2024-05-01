@@ -19,7 +19,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRecoilState } from "recoil";
-import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState, chatHeadlineTextState, chatLogoState, chatWelcomeMessageTextState } from "@/lib/recoil/atoms";
+import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState, chatHeadlineTextState, chatLogoState, chatOrientationState, chatWelcomeMessageTextState } from "@/lib/recoil/atoms";
 
 const TChatbot = () => {
   const [selectedBackgroundColor, setSelectedBackgroundColor] =
@@ -31,6 +31,7 @@ const TChatbot = () => {
   const [chatBrandColors, setChatBrandColors] = useRecoilState(chatBrandColorState)
   const [chatBackgroundTheme, setChatBackgroundTheme] = useRecoilState(chatBackgroundThemeState)
   const [chatLogo, setChatLogo] = useRecoilState(chatLogoState)
+  const [chatOrientation, setChatOrientation] = useRecoilState( chatOrientationState)
 
   const fileInputRef = useRef(null);
 
@@ -149,8 +150,8 @@ const TChatbot = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Left</DropdownMenuItem>
-                <DropdownMenuItem>Right</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setChatOrientation('left')}>Left</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setChatOrientation('right')}>Right</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -29,3 +29,8 @@ export const chatLogoState = atom({
   key: 'chatLogoState',
   default: 'https://github.com/shadcn.png'
 })
+
+export const chatOrientationState = atom({
+  key: 'chatOrientationState',
+  default: 'left'
+})
