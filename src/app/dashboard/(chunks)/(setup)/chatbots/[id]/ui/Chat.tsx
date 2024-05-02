@@ -11,6 +11,7 @@ import { chatBackgroundThemeState, chatBrandColorState, chatDescriptionTextState
 import { Send } from "lucide-react";
 import React, { useEffect } from "react";
 import { useRecoilValue, selector } from "recoil";
+import Logo from '../../../../../../../../public/images/logo.png'
 
 const Chat = () => {
   const chatHeadlineTextStateSelector = selector({
@@ -148,6 +149,10 @@ const Chat = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+      </div>
+
+      <div className="flex justify-center items-center mt-5">
+        <img src={Logo} alt="Aidsphere branding" />
       </div>
     </div>
   );
