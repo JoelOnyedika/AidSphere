@@ -93,17 +93,15 @@ const Chat = () => {
         </div>
       </div>
       <div className="p-4 flex-grow">
-        {chatOrientation === "right" ? (
+        {chatOrientation === "left" ? (
           <div className="space-y-8">
-          {/* Right Chatbox */}
           <div className="flex justify-end mb-2">
-            <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-lg rounded-tl-lg p-4">
+            <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-xl rounded-tl-lg p-4">
               {chatWelcomeMessage}
             </div>
           </div>
-          {/* Left Chatbox */}
           <div className="flex justify-start mb-2">
-            <Avatar className="mr-2">
+            <Avatar className="mr-2 mt-2">
               <AvatarImage src={chatLogo} alt="aidsphere logo" />
               <AvatarFallback>AS</AvatarFallback>
             </Avatar>
@@ -112,25 +110,22 @@ const Chat = () => {
             </div>
           </div>
         </div>
-        ) : (
+        ): (
           <div className="space-y-8">
-          {/* Left Chatbox */}
           <div className="flex justify-start mb-2">
-            <Avatar className="mr-2">
-              <AvatarImage src={chatLogo} alt="aidsphere logo" />
-              <AvatarFallback>AS</AvatarFallback>
-            </Avatar>
-            <div style={{background: `rgb(${chatBrandColor})`}} className="rounded-b-lg rounded-tr-lg text-white max-w-2/3 break-words p-4">
-              Hello chat with our chatbot please
-            </div>
-          </div>
-          {/* Right Chatbox */}
-          <div className="flex justify-end mb-2">
-            <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-lg rounded-tl-lg p-4">
+            <div style={{background: `rgb(${chatBrandColor})`}} className="text-white rounded-b-xl rounded-tr-lg p-4">
               {chatWelcomeMessage}
             </div>
           </div>
-          
+          <div className="flex justify-end mb-2">
+            <div style={{background: `rgb(${chatBrandColor})`}} className="rounded-b-lg rounded-tl-lg text-white max-w-2/3 break-words p-4">
+              Hello chat with our chatbot please
+            </div>
+            <Avatar className="ml-2 mt-2">
+              <AvatarImage src={chatLogo} alt="aidsphere logo" />
+              <AvatarFallback>AS</AvatarFallback>
+            </Avatar>
+          </div>
         </div>
         )}
         

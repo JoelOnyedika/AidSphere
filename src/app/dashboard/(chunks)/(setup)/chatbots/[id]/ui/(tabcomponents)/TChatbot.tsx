@@ -146,7 +146,7 @@ const TChatbot = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">
-                  <span>Change Orientation: Right</span>
+                  <span>Change Orientation: {chatOrientation}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
