@@ -30,7 +30,7 @@ const renderContent = (tabValue: string) => {
   switch (tabValue) {
     case "chatbot":
       return (
-        "<TChatbot />"
+        "<TChatbot />jj"
       );
     case "knowledge":
       return 'knowledge'
