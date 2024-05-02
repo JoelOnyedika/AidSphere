@@ -4,11 +4,11 @@ import React from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Create your Chatbots and train them here",
-  description: "Create your Chatbots and train them here",
+  title: "Create your ticket forms here",
+  description: "Create your ticket forms here",
 };
 
-export default function ChatbotsLayout({
+export default function TicketFormsLayout({
   children,
 }: {
   children: React.ReactNode;

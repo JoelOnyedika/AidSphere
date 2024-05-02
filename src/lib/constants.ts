@@ -123,7 +123,7 @@ export const SidebarData = {
         id: 4,
         title: "Tickets",
         icon: Ticket,
-        link: "/tickets",
+        link: "/ticket-forms",
       },
       {
         id: 5,
@@ -169,7 +169,7 @@ export const SidebarData = {
         id: 11,
         title: "Ticket Forms",
         icon: PercentDiamond,
-        link: "/ticket-forms",
+        link: "/tickets-form",
       },
       {
         id: 12,
@@ -180,7 +180,6 @@ export const SidebarData = {
     ],
     sidebarConn: [
       {
-        id: 13,
         title: "Webhooks",
         icon: Webhook,
         link: "/webhooks",
