@@ -22,7 +22,7 @@ const TicketForms = () => {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <div className="flex text-white">
+    <div className="flex text-white overflow-scroll">
       <div>
         <Sidebar />
       </div>

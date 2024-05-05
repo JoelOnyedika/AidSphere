@@ -25,9 +25,9 @@ const TicketFormInterface = () => {
               <MessageCircleMore className="mr-3" />
             </div>
             <div className="space-x-3">
-              <Link href={"dashboard/chatbots"}>Chatbots</Link>
+              <Link className="hover:underline" href={"dashboard/ticket-forms"}>Ticket forms</Link>
               <span> {">"} </span>
-              <span>Untitled</span>
+              <span className="hover:underline">Untitled</span>
             </div>
           </div>
           <div className="mt-4 pt-4 text-gray-400 space-y-2 overflow-y-auto">

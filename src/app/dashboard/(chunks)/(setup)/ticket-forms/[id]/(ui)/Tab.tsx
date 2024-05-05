@@ -1,8 +1,14 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "next-themes";
-import { ChatbotUITabsData } from "@/lib/constants";
+import { TicketFormUITabsData } from "@/lib/constants";
 import { capitalizeFirstLetter } from "@/lib/shit-functions/functions";
+import TTicketForm from "./(tabcomponents)/TTicketForm";
+import TKnowledge from "./(tabcomponents)/TKnowledge";
+import TSettings from "./(tabcomponents)/TSettings";
+import TInstall from "./(tabcomponents)/TInstall";
+import TConnection from "./(tabcomponents)/TConnection";
+import TFields from "./(tabcomponents)/TFields";
 
 const Tab = () => {
   const { setTheme } = useTheme();
@@ -11,13 +17,13 @@ const Tab = () => {
   return (
     <Tabs defaultValue="chatbot" className="w-[600px]">
       <TabsList>
-        {ChatbotUITabsData.map((data) => (
+        {TicketFormUITabsData.map((data) => (
           <TabsTrigger key={data.name} value={data.name}>
             {capitalizeFirstLetter(data.name)}
           </TabsTrigger>
         ))}
       </TabsList>
-      {ChatbotUITabsData.map((data) => (
+      {TicketFormUITabsData.map((data) => (
         <TabsContent key={data.name} value={data.name} className="mt-5">
           {renderContent(data.name)}
         </TabsContent>
@@ -28,24 +34,20 @@ const Tab = () => {
 
 const renderContent = (tabValue: string) => {
   switch (tabValue) {
-    case "chatbot":
-      return (
-        "<TChatbot />jj"
-      );
+    case "ticket form":
+      return <TTicketForm />;
     case "knowledge":
-      return 'knowledge'
-    case "behivour":
-      return '<TBehivour/>'
-    case 'connections':
-      return '<TConnection />'
-      case 'install':
-        return '<TInstall />'
+      return <TKnowledge />;
+    case "fields":
+      return <TFields />;
+    case "connections":
+      return <TConnection />;
+    case "install":
+      return <TInstall />;
     case "settings":
-      return (
-        'settings'
-      )
+      return <TSettings />;
     default:
-      return <span>Default content for {tabValue}</span>;
+      return <TTicketForm />;
   }
 };
 

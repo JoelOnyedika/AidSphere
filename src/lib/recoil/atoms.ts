@@ -34,3 +34,33 @@ export const chatOrientationState = atom({
   key: 'chatOrientationState',
   default: 'left'
 })
+
+// TICKET ATOMS
+export const ticketHeadlineTextState = atom({
+  key: 'ticketHeadlineTextState', 
+  default: 'Create your tickets' 
+});
+
+export const ticketDescriptionTextState = atom({
+key: 'ticketDescriptionTextState',
+default: 'Please let us know if something isn\'t working as expected'
+})
+
+export const ticketButtonTextState = atom({
+  key: 'ticketButtonTextState',
+  default: 'Create ticket'
+  })
+
+export const ticketWelcomeMessageTextState = atom({
+key: 'ticketWelcomeMessageTextState',
+default: ''
+})
+
+export const ticketBrandColorState = atom({
+key: 'ticketBrandColorState',
+default: '59, 130, 246'
+})
+export const ticketBackgroundThemeState = atom({
+  key: 'ticketBackgroundThemeState',
+  default: 'light'
+})

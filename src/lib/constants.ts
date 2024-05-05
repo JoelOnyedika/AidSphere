@@ -169,7 +169,7 @@ export const SidebarData = {
         id: 11,
         title: "Ticket Forms",
         icon: PercentDiamond,
-        link: "/tickets-form",
+        link: "/ticket-forms",
       },
       {
         id: 12,
@@ -225,6 +225,30 @@ export const ChatbotUITabsData = [
   }, {
     id: 3,
     name: "behivour"
+  }, {
+    id: 4,
+    name: "connections"
+  }, {
+    id: 5,
+    name: "settings"
+  }, {
+    id: 6,
+    name: "install"
+  }, 
+  
+]
+
+export const TicketFormUITabsData = [
+  {
+    id: 1,
+    name: "ticket form"
+  }, 
+  {
+    id: 2,
+    name: "knowledge"
+  }, {
+    id: 3,
+    name: "fields"
   }, {
     id: 4,
     name: "connections"

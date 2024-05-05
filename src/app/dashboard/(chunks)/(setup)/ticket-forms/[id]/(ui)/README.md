@@ -1,0 +1,1 @@
+All the files in the foolder (tabcomponents) are named with a T to start it. THe T represents tab and this files are being imported into the Tab component where they are rendered using a switch statments
