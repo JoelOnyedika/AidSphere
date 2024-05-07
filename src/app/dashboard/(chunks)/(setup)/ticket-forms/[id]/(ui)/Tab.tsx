@@ -15,7 +15,7 @@ const Tab = () => {
   setTheme("dark");
 
   return (
-    <Tabs defaultValue="chatbot" className="w-[600px]">
+    <Tabs defaultValue="ticket form" className="w-[600px]">
       <TabsList>
         {TicketFormUITabsData.map((data) => (
           <TabsTrigger key={data.name} value={data.name}>

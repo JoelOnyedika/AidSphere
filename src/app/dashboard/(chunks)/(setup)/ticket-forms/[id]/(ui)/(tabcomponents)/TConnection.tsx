@@ -13,7 +13,7 @@ const TConnection = () => {
 
   return (
     <div>
-      <div className="mb-10">
+      <div className="mb-10 animate-fade-down">
         <div className="flex">
           <div className="" onClick={() => toggleItem()}>
             {activeItem ? (
@@ -29,7 +29,7 @@ const TConnection = () => {
         </div>
         <div className="mt-5 text-slate-400">
           {activeItem && (
-            <div className={`${activeItem ? 'show' : 'hide'}`}>
+            <div className={` animate-fade-down`}>
               <Button variant="blue">
                 <Atom className="mr-2 h-4 w-4" />
                 Connect email inbox

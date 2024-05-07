@@ -79,7 +79,7 @@ const Chatbots = () => {
             <div>
               <Header headerData={headerData} />
             </div>
-            <Button className="bg-blue-500 mt-4" onClick={handleSubmit}>
+            <Button variant="blue" className="mt-4" onClick={handleSubmit}>
                   <Plus className="mr-2" />
                   <span>Create Chatbot</span>  
             </Button>

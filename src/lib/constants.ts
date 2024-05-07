@@ -310,3 +310,20 @@ export const ChatUIBrandColors = [
 export const TConnectionData = [
   'FAQs', 'Ticket Form'
 ]
+
+// inputTypes.js
+
+export const ticketInputTypes = [
+  { type: "text", name: "Text" },
+  { type: "number", name: "Number" },
+  { type: "email", name: "Email" },
+  { type: "date", name: "Date" },
+  { type: "checkbox", name: "Checkbox" },
+  { type: "radio", name: "Radio" },
+  { type: "file", name: "File" },
+  { type: "color", name: "Color" },
+  { type: "range", name: "Range" },
+  { type: "search", name: "Search" },
+  { type: "tel", name: "Telephone" },
+  { type: "url", name: "URL" },
+];

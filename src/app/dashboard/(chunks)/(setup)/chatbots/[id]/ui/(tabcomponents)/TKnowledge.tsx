@@ -19,7 +19,7 @@ const TKnowledge = () => {
   return (
     <div>
       {SidebarData.sidebar.sidebarKnowledge.map((data, index) => (
-        <div className='mb-10' key={index}>
+        <div className='mb-10 animate-fade-down' key={index}>
           <div className='flex'>
             <div className='' onClick={() => toggleItem(index)}>
               {/* Display caret based on active/inactive state */}
@@ -32,12 +32,12 @@ const TKnowledge = () => {
           </div>  
           <div className='mt-5 text-slate-400'>
             {activeItems[index] && (
-              <>
+              <div className='animate-fade-down'>
                 <Button variant='blue'><Atom className='mr-2 h-4 w-4'/> {data.title}</Button>
                 <div className='mt-2 ml-2'>
                 <small className='font-bold'>No {data.title} added yet.</small>
                 </div>  
-              </>
+              </div>
           )}
             
           </div>
