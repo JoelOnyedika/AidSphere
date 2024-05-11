@@ -319,11 +319,23 @@ export const ticketInputTypes = [
   { type: "email", name: "Email" },
   { type: "date", name: "Date" },
   { type: "checkbox", name: "Checkbox" },
-  { type: "radio", name: "Radio" },
   { type: "file", name: "File" },
-  { type: "color", name: "Color" },
-  { type: "range", name: "Range" },
-  { type: "search", name: "Search" },
-  { type: "tel", name: "Telephone" },
-  { type: "url", name: "URL" },
 ];
+
+export const EmailInboxUITabsData = [
+  {
+    id: 1,
+    name: "email Inbox"
+  }, 
+  {
+    id: 2,
+    name: "knowledge"
+  },  {
+    id: 3,
+    name: "settings"
+  }, {
+    id: 4,
+    name: "install"
+  }, 
+  
+]

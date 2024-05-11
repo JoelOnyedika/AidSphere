@@ -4,27 +4,50 @@ import "@/app/globals.css";
 import { SidebarData } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { getUserCookies } from "@/lib/supabase/queries";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Label } from "../ui/label";
+import {ChevronDown} from 'lucide-react'
+import { truncateString } from "@/lib/shit-functions/functions";
 
 const Sidebar = () => {
   const router = useRouter();
-  const [userCookieData, setUserCookieData] = useState({username: "", email: ""})
+  const [userCookieData, setUserCookieData] = useState({
+    username: "",
+    email: "",
+  });
+  const [openAccountDialog, setOpenAccountDialog] = useState(false)
 
   useEffect(() => {
     async function fetchUserCookie() {
-      const userCookie = await getUserCookies()
+      const userCookie = await getUserCookies();
       const parsedValue = JSON.parse(userCookie.value);
-      setUserCookieData({username: parsedValue.username, email: parsedValue.userEmail})
+      setUserCookieData({
+        username: parsedValue.username,
+        email: parsedValue.userEmail,
+      });
     }
-    fetchUserCookie()
-  }, [])
+    fetchUserCookie();
+  }, []);
 
   const { sidebar } = SidebarData;
   return (
-    <div className="bg-gray-900">
-      <div>
-
-          <hr />      
+    <div className="bg-gray-900 mt-4">
+      <div className="ml-3">
+        <div className="flex space-x-2 mb-3">
+          <Avatar>
+            <AvatarImage src="" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col space-y-[2px]">
+            <div className="flex justify-between">
+            <Label>JoelOnyedika</Label>
+            <ChevronDown className="scale-50 p-0 cursor-pointer" onClick={() => setOpenAccountDialog(!openAccountDialog)}/>              
+            </div>
+            <Label className="font-semibold text-gray-500">{truncateString("joelonyedikaepic@gmail.com", 18)}</Label>
+          </div>
+        </div>
       </div>
+        <hr style={{opacity: '0.5'}}/>
       <div className="block space-y-5 box-border overflow-y text-gray-400 font-bold bg-gray-900 p-3 pr-10">
         <div>
           <div>
@@ -56,12 +79,10 @@ const Sidebar = () => {
                 id: number
               ) => (
                 <div
-                  className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
+                  className="flex mb-2 w-full space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
                 >
-                  <div className="mb-2">
-                    {<data.icon className="scale-75" />}
-                  </div>
+                  <div className="">{<data.icon className="scale-75" />}</div>
                   <span>{data.title}</span>
                 </div>
               )
@@ -80,12 +101,10 @@ const Sidebar = () => {
                 id: number
               ) => (
                 <div
-                  className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
+                  className="flex mb-2 w-full space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
                 >
-                  <div className="mb-2">
-                    {<data.icon className="scale-75" />}
-                  </div>
+                  <div className="">{<data.icon className="scale-75" />}</div>
                   <span>{data.title}</span>
                 </div>
               )
@@ -104,12 +123,10 @@ const Sidebar = () => {
                 id: number
               ) => (
                 <div
-                  className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
+                  className="flex mb-2 w-full space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
                 >
-                  <div className="mb-2">
-                    {<data.icon className="scale-75" />}
-                  </div>
+                  <div className="">{<data.icon className="scale-75" />}</div>
                   <span>{data.title}</span>
                 </div>
               )
@@ -128,12 +145,10 @@ const Sidebar = () => {
                 id: number
               ) => (
                 <div
-                  className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
+                  className="flex mb-2 w-full space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
                 >
-                  <div className="mb-2">
-                    {<data.icon className="scale-75" />}
-                  </div>
+                  <div className="">{<data.icon className="scale-75" />}</div>
                   <span>{data.title}</span>
                 </div>
               )
@@ -152,12 +167,10 @@ const Sidebar = () => {
                 id: number
               ) => (
                 <div
-                  className="flex space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
+                  className="flex mb-2 w-full space-x-2 cursor-pointer box-border hover:bg-slate-700 p-1 rounded-md"
                   onClick={() => router.push(`/dashboard${data.link}`)}
                 >
-                  <div className="mb-2">
-                    {<data.icon className="scale-75" />}
-                  </div>
+                  <div className="">{<data.icon className="scale-75" />}</div>
                   <span>{data.title}</span>
                 </div>
               )

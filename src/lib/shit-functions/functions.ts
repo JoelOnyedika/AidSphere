@@ -38,10 +38,18 @@ export function extractVideoId(url: string) {
     }
   }
 
-export function getFileExtension(filename) {
+export function getFileExtension(filename: string) {
     return filename.split('.').pop().toLowerCase();
 }
 
 export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function truncateString(str: string, length: number) {
+  if(str.length > length) {
+    return str.substring(0, length)+'...'
+  } else {
+    return str
+  }
 }

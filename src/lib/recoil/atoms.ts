@@ -64,3 +64,25 @@ export const ticketBackgroundThemeState = atom({
   key: 'ticketBackgroundThemeState',
   default: 'light'
 })
+
+export const ticketFieldsDataState = atom({
+  key: 'ticketFieldsDataState',
+  default: []
+})
+
+// EMAIL INBOX ATOMS
+export const emailInboxAliasState = atom({
+  key: 'emailInboxAliasState',
+  default: ''
+})
+
+export const emailInboxFromNameState = atom({
+  key: 'emailInboxFromNameState',
+  default: ''
+})
+
+export const emailInboxSignatureState = atom({
+  key: 'emailInboxSignatureState',
+  default: ''
+})
+

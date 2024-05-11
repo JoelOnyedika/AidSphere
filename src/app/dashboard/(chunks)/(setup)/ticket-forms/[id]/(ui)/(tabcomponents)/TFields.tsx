@@ -14,6 +14,8 @@ import { ticketInputTypes } from "@/lib/constants";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import { ticketFieldsDataState } from "@/lib/recoil/atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const TFields = () => {
   interface IUpdatedFields {
@@ -23,6 +25,10 @@ const TFields = () => {
     defaultValue: string;
     showDefaultValue: boolean;
   }
+
+  const setTicketFieldData = useSetRecoilState(
+    ticketFieldsDataState
+  );
 
   const [fields, setFields] = useState([
     {
@@ -38,19 +44,21 @@ const TFields = () => {
     },
   ]);
 
-  const [updatedFields, setUpdatedFields] = useState<IUpdatedFields>();
-  const [playRemoveFieldAnim, setPlayRemoveFieldAnim] = useState(false)
+  const [updatedFields, setUpdatedFields] = useState<IUpdatedFields>([]);
+  const [playRemoveFieldAnim, setPlayRemoveFieldAnim] = useState(false);
 
   const handleOnChange = (id: number, newData: any) => {
     setFields((prevFields) => {
-      return prevFields.map((field) => {
+      const updated = prevFields.map((field) => {
         if (field.id === id) {
-          setUpdatedFields({ ...field, ...newData });
-          console.log(updatedFields);
           return { ...field, ...newData };
         }
         return field;
       });
+
+      setTicketFieldData(updated); // Update ticketFieldsDataState
+      setUpdatedFields(updated);
+      return updated;
     });
   };
 
@@ -69,25 +77,33 @@ const TFields = () => {
     const newField = {
       id: newId,
       activeItem: true,
-      label: `Field ${newId}`,
+      label: "Field",
       defaultValue: "",
       showDefaultValue: false,
-      fileUpload: "",
+      fileUpload: false,
       inputType: "text",
-      required: "on",
+      required: false,
     };
-  
-    // Prepend the new field to the existing array of fields
-    setFields([newField, ...fields]);
+
+    // Update fields state
+    setFields((prevFields) => [newField, ...prevFields]);
+
+    // Update ticketFieldData state
+    setUpdatedFields((prevData: any) => [newField, ...prevData]);
+    setTicketFieldData((prevData: any) => [newField, ...prevData]);
   };
 
   // Function to handle removing a field
   const removeField = (id: number) => {
     if (id !== 1) {
-      setPlayRemoveFieldAnim(true)
-      setFields(fields.filter((field) => field.id !== id));
+      setPlayRemoveFieldAnim(true);
+      const filteredFields = fields.filter((field) => field.id !== id);
+      setFields(filteredFields);
+      setUpdatedFields(updatedFields.filter((field) => field.id !== id));
+      setTicketFieldData(filteredFields); // Pass filteredFields to setTicketFieldData
     }
   };
+  
 
   // Function to toggle showing the default value input
   const toggleDefaultValue = (id: number) => {
@@ -124,7 +140,9 @@ const TFields = () => {
       <div className="mt-3 space-y-3">
         {fields.map((field) => (
           <div
-            className={`mb-10 animate-fade-down ${playRemoveFieldAnim && 'animate-fade-up'} border show border-gray-700 rounded-lg`}
+            className={`mb-10 animate-fade-down ${
+              playRemoveFieldAnim && "animate-fade-up"
+            } border show border-gray-700 rounded-lg`}
             key={field.id}
           >
             <div className="flex justify-between bg-gray-600 rounded-t-lg p-2">
@@ -184,12 +202,13 @@ const TFields = () => {
                           Required
                         </Label>
                         <input
-                          type="radio"
+                          checked={field.required}
+                          type="checkbox"
                           name=""
                           id=""
                           onChange={(e) =>
                             handleOnChange(field.id, {
-                              required: e.target.value,
+                              required: e.target.checked,
                             })
                           }
                         />
@@ -203,12 +222,13 @@ const TFields = () => {
                           File Upload
                         </Label>
                         <input
-                          type="radio"
+                          checked={field.fileUpload}
+                          type="checkbox"
                           name=""
                           id=""
                           onChange={(e) =>
                             handleOnChange(field.id, {
-                              fileUpload: e.target.value,
+                              fileUpload: e.target.checked,
                             })
                           }
                         />

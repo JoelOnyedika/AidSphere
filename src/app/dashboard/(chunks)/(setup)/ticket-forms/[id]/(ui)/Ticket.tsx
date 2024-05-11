@@ -7,9 +7,10 @@ import {
   ticketBrandColorState,
   ticketButtonTextState,
   ticketDescriptionTextState,
+  ticketFieldsDataState,
   ticketHeadlineTextState,
 } from "@/lib/recoil/atoms";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { selector, useRecoilValue } from "recoil";
 
 const Ticket = () => {
@@ -53,6 +54,14 @@ const Ticket = () => {
     },
   });
 
+  const ticketFieldsDataStateSelector = selector({
+    key: "ticketFieldData",
+    get: ({ get }) => {
+      const data: any = get(ticketFieldsDataState);
+      return data;
+    },
+  });
+
   const ticketHeadline = useRecoilValue(ticketHeadlineTextStateSelector);
   const ticketDescription = useRecoilValue(ticketDescriptionTextStateSelector);
   const ticketBrandColor = useRecoilValue(ticketBrandColorStateSelector);
@@ -60,6 +69,40 @@ const Ticket = () => {
     ticketBackgroundThemeStateSelector
   );
   const ticketButtonText = useRecoilValue(ticketButtonTextStateSelector);
+  const ticketFieldData = useRecoilValue(ticketFieldsDataStateSelector);
+  console.log(ticketFieldData);
+
+  useEffect(() => {
+    setUpdatedTicketFieldData(ticketFieldData);
+  }, [ticketFieldData]);
+
+  const [updatedTicketFieldData, setUpdatedTicketFieldData] = useState([]);
+  const [value, setValue] = useState("");
+  const [fieldValues, setFieldValues] = useState({});
+
+  useEffect(() => {
+    // Initialize field values based on ticketFieldData
+    const initialValues = {};
+    ticketFieldData.forEach((data) => {
+      // If defaultValue is provided and showDefaultValue is true, set the default value
+      if (data.defaultValue && data.showDefaultValue) {
+        initialValues[data.id] = data.defaultValue;
+      } else {
+        initialValues[data.id] = "";
+      }
+    });
+    setFieldValues(initialValues);
+  }, [ticketFieldData]);
+
+  const handleInputChange = (e, id) => {
+    const newValue = e.target.value;
+    setFieldValues((prevState) => ({
+      ...prevState,
+      [id]: newValue,
+    }));
+  };
+
+
   return (
     <div>
       <div
@@ -77,24 +120,43 @@ const Ticket = () => {
         </div>
         <div className="space-y-4">
           <div>
-            <Label
-              className={`${
-                ticketBackgroundTheme === "light"
-                  ? "text-gray-600"
-                  : "text-white"
-              }  font-bold`}
-            >
-              Label
-            </Label>
-            <Input
-              placeholder="Type into me please"
-              className={`${
-                ticketBackgroundTheme === "light"
-                  ? "text-slate-800"
-                  : "text-white"
-              } border w-full text-black focus-within:border-blue-500 focus-within:border-solid border-none`}
-            />
+            {updatedTicketFieldData.map(
+              (data: any) =>
+                data.id !== 1 && (
+                  <div key={data.id} className={`mb-4 `}>
+                    <Label
+                      className={`${
+                        ticketBackgroundTheme === "light"
+                          ? "text-gray-600"
+                          : "text-white"
+                      } font-bold`}
+                    >
+                      {data.label}
+                      {data.required && " *"}
+                    </Label>
+                    {data.inputType === "checkbox" ? (
+                      <div className="">
+                        <input checked={true} type="checkbox" name="" id="" />
+                      </div>
+                    ) : (
+                      <Input
+                        type={data.inputType}
+                        placeholder={`Type ${data.inputType} into me please`}
+                        value={fieldValues[data.id] || ""}
+                        required={data.required === "on"}
+                        onChange={(e) => handleInputChange(e, data.id)}
+                        className={`${
+                          ticketBackgroundTheme === "light"
+                            ? "text-gray-600"
+                            : "text-white"
+                        } border w-full focus-within:border-blue-500 focus-within:border-solid border-none`}
+                      />
+                    )}
+                  </div>
+                )
+            )}
           </div>
+
           <div>
             <Label
               className={`${
@@ -114,7 +176,7 @@ const Ticket = () => {
                 ticketBackgroundTheme === "light"
                   ? "text-slate-800"
                   : "text-white"
-              } border w-full text-black focus-within:border-blue-500 focus-within:border-solid border-none`}
+              } border w-full focus-within:border-blue-500 focus-within:border-solid border-none`}
             />
           </div>
         </div>
