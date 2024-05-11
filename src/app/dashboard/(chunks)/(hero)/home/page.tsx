@@ -18,9 +18,9 @@ const Home = () => {
 
   return (
     <div className="flex text-white">
-      {/*<div>
+      <div>
         <Sidebar />
-      </div>*/}
+      </div>
       <div className="ml-10 flex flex-col flex-grow h-screen">
         <div>
           <div className="justify-center items-center flex h-screen text-white">
