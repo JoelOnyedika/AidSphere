@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Header from "../../../../../components/dashboard/Header";
 import { Ticket } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
+import Link from "next/link";
 
 const Tickets = () => {
   const [headerData, setHeaderData] = useState({
@@ -25,7 +26,7 @@ const Tickets = () => {
             <div>
               <Header headerData={headerData} />
             </div>
-
+            <Link href={'/dashboard/tickets/asdfsdfasdf'} >
             <div className="mt-10 mr-40">
               <div
                 className={`text-gray-400 p-2 rounded-md cursor-pointer hover:bg-gray-600 ${
@@ -33,7 +34,7 @@ const Tickets = () => {
                 }`}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={() => setIsClicked(!isClicked)}
-              >
+                >
                 <div className="flex justify-between items-center w-full">
                   <div className="flex">
                     <div className="mr-2">
@@ -49,6 +50,7 @@ const Tickets = () => {
                 </div>
               </div>
             </div>
+            </Link>
           </div>
         </div>
       </div>

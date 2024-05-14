@@ -123,7 +123,7 @@ export const SidebarData = {
         id: 4,
         title: "Tickets",
         icon: Ticket,
-        link: "/ticket-forms",
+        link: "/tickets",
       },
       {
         id: 5,
@@ -338,4 +338,42 @@ export const EmailInboxUITabsData = [
     name: "install"
   }, 
   
+]
+ 
+export const TicketVisualizerStatusData = [
+  {
+    name:'Open',
+    bgColor: 'bg-blue-700'
+  },
+  
+  {
+    name:'Assigned',
+    bgColor: 'bg-blue-900'
+  },
+  {
+    name:'Need more info',
+    bgColor: 'bg-yellow-700'
+  },
+  {
+    name:'Resolved',
+    bgColor: 'bg-yellow-900'
+  },
+  {
+    name:'Closed',
+    bgColor: 'bg-slate-700'
+  },
+]
+export const TicketVisualizerPriorityData = [
+  {
+    name:'High priority',
+    bgColor: 'bg-red-700'
+  },
+  {
+    name:'Medium priority',
+    bgColor: 'bg-yellow-700'
+  },
+  {
+    name:'Low priority',
+    bgColor: 'bg-blue-700'
+  },
 ]

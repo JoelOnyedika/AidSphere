@@ -96,6 +96,23 @@ const [error, setError] = useState("");
                   </Link>
                 ))
               )}
+              <Link href={'/dashboard/chats/asdfasdfasdf'}>
+                      <div className="flex justify-between items-center w-full">
+                        <div className="flex">
+                          <div className="mr-2">
+                            <MessageCircleMore />
+                          </div>
+                          <div>
+                            <span className="font-semibold">asdfasdf</span>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="font-semibold">
+                            asdfasdfasdf
+                          </span>
+                        </div>
+                      </div>
+                  </Link>
             </div>
             
           </div>
