@@ -37,13 +37,13 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
             </div>
             <div className="hidden md:flex">
               <NavigationMenu className="mr-5 bg-transparent">
-                <NavigationMenuList>
+                <NavigationMenuList className="space-x-10">
                   <NavigationMenuItem>
                     <NavigationMenuTrigger className="text-lg bg-transparent">
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid bg-gray-800 text-white gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                      <ul className="grid text-white gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                         {navbarComponents.map((data: any, index: number) => (
                           <li className="row-span-3">
                             <Link href={data.href} key={index}>
@@ -56,23 +56,13 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href={"/pricing"} className="mr-5 text-lg inline">
+                    <Link href={"/pricing"} className="text-lg inline">
                       Pricing
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link href={"/docs"} className="text-lg inline">
                       Documentation
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href="/dashboard"
-                      className="p-3 flex text-lg rounded-full inline bg-purple-400"
-                    >
-                      {/*{doesSessionExist ? "Dashboard" : "Get started"}*/}
-                    
-                      <MoveRight />
                     </Link>
                   </NavigationMenuItem>
                 </NavigationMenuList>

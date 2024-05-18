@@ -3,9 +3,11 @@ import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { botCards } from "@/lib/constants";
+import { Meteors } from "../ui/effects/meteors";
+import { Button as MovingBorderBtn } from "../ui/effects/moving-border";
 
 interface IHero {
-  doesSessionExist: boolean
+  doesSessionExist: boolean;
 }
 
 const Hero = ({ doesSessionExist }: IHero) => {
@@ -23,19 +25,29 @@ const Hero = ({ doesSessionExist }: IHero) => {
             outstanding customer experience
           </p>
         </div>
-        <div className="mt-5 flex justify-center items-center">
+        <div className="mt-5 flex justify-center items-center space-x-2">
           <Link
             //{/* href={doesSessionExist ? "/dashboard" : '/signup'} */}
             href={"/dashboard"}
-            className="rounded-full mr-5 flex bg-purple-400 p-3"
           >
-            //{/*doesSessionExist ? "Dashboard" : "Get started"*/}
-          Dashboard
-            <MoveRight />
+            <MovingBorderBtn
+              borderRadius="1.75rem"
+              className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+            >
+              {/*doesSessionExist ? "Dashboard" : "Get started"*/}
+              <span>Dashboard</span>
+            </MovingBorderBtn>
           </Link>
-          <Link href={"/dashboard"} className="flex">
-            Documentation
-            <MoveRight />
+          <Link
+            //{/* href={doesSessionExist ? "/dashboard" : '/signup'} */}
+            href={"/dashboard"}
+          >
+            <MovingBorderBtn
+              borderRadius="1.75rem"
+              className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+            >
+              <span>Documentation</span>
+            </MovingBorderBtn>
           </Link>
         </div>
         <hr
@@ -52,37 +64,46 @@ const Hero = ({ doesSessionExist }: IHero) => {
       {/* header text end */}
 
       {/* cards start */}
-      <section className="mt-10 text-white">
-        <div>
-          <div className="text-center">
+      <section className="mt-10 space-y-10 text-white">
+          <div className="text-center space-y-5">
             <div className="flex flex-col items-center">
               <h2 className="text-[30px] font-extrabold">
-                Live <span className="neon-blue text-[30px]">{" "}Ai{" "}</span>chat
+                Live <span className="neon-blue text-[30px]"> Ai </span>chat
                 support. Trained using your{" "}
                 <span className="neon-blue text-[30px]">own data</span>
               </h2>
             </div>
-            <div className="mt-5">
+            <div className="mt-5 mb-5">
               <p>
                 A very well-trained AI chat bot that can deliver better results
                 than humans in 9/10 cases
               </p>
             </div>
           </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1224px] mx-auto pl-[24px] pr-[24px] mt-5 gap-4">
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-[1224px] mx-auto pl-[24px] pr-[24px] mt-5 gap-4">
           {botCards.map((data: any, index: number) => (
-            <Card key={index} className="p-5 bg-gray-800 text-white">
-              <CardContent>
-                <div className="flex items-center mb-3">
-                  <span className="font-bold mr-2">{<data.icon />}</span>
-                  <span className="font-bold">{data.title}</span>
+            <div className=" w-full relative max-w-xs">
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
+              <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+                <div className="h-5 w-5 rounded-full border flex items-center justify-center mb-4 border-gray-500">
+                  <data.icon />
                 </div>
-                <p className="mb-5">{data.description}</p>
-              </CardContent>
-            </Card>
+
+                <h1 className="font-bold text-xl text-white mb-4 relative z-50">
+                  {data.title}
+                </h1>
+
+                <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
+                  {data.description}
+                </p>
+
+                {/* Meaty part - Meteor effect */}
+                <Meteors number={20} />
+              </div>
+            </div>
           ))}
         </div>
+        {/* cards end */}
         <hr
           style={{
             border: "none",
@@ -95,7 +116,6 @@ const Hero = ({ doesSessionExist }: IHero) => {
         />
       </section>
 
-      {/* cards end */}
       {/* connect tools start */}
       <section>
         <div className="flex">
