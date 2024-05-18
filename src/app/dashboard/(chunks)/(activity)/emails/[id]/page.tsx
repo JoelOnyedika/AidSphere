@@ -1,17 +1,12 @@
-import Sidebar from "@/components/dashboard/Sidebar";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
 import React from "react";
 import ChatTabs from "./(tabcomponents)/ChatTab";
 import UsersTab from "./(tabcomponents)/UsersTab";
-import { Ticket } from "lucide-react";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import Status from "./(tabcomponents)/Status";
+import Sidebar from "@/components/dashboard/Sidebar";
 
-const TicketVisualizer = () => {
+const EmailVisualizer = () => {
   return (
     <div>
       <div className="flex text-white">
@@ -20,13 +15,13 @@ const TicketVisualizer = () => {
         </div>
         <div className="ml-5 flex flex-col space-y-3 mt-8 flex-grow h-screen">
           <div className="flex space-x-3 mb-5 text-slate-400">
-            <Ticket />{" "}
+            <Mail />{" "}
             <span className="hover:underline cursor-pointer">
-              <Link href={"/dashboard/tickets"}>Tickets </Link>
+              <Link href={"/dashboard/emails"}>Emails</Link>
             </span>{" "}
             <span>{">"}</span>{" "}
             <span className="hover:underline cursor-pointer">
-              <Link href={"/dashboard/tickets/a-specific-id"}>Untitled</Link>
+              <Link href={"/dashboard/emails/a-specific-id"}>Untitled</Link>
             </span>
           </div>
           <div className="flex space-x-3 mt-4">
@@ -50,4 +45,4 @@ const TicketVisualizer = () => {
   );
 };
 
-export default TicketVisualizer;
+export default EmailVisualizer;

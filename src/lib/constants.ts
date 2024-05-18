@@ -3,6 +3,7 @@ import {
   BookText,
   Bot,
   Cctv,
+  Clock,
   FileText,
   FileTextIcon,
   Globe,
@@ -16,7 +17,9 @@ import {
   PercentDiamond,
   RotateCcw,
   Settings,
+  Tags,
   Ticket,
+  UserCircle2,
   Webhook,
   Youtube,
 } from "lucide-react";
@@ -375,5 +378,47 @@ export const TicketVisualizerPriorityData = [
   {
     name:'Low priority',
     bgColor: 'bg-blue-700'
+  },
+]
+
+export const TicketVisualizerStatusMainData = [
+  {
+    name: "Information",
+    trigger: 'information'
+  },
+  {
+    name: "History",
+    trigger: 'history'
+  },
+  {
+    name: "Previous ticket",
+    trigger: 'previous-ticket'
+  },
+  {
+    name: "Related",
+    trigger: 'related'
+  }
+]
+
+export const TicketVisualizerStatusMainFormData = [
+  {
+    name: "Created by",
+    icon: UserCircle2
+  },
+  {
+    name: "Last edited by",
+    icon: UserCircle2
+  },
+  {
+    name: "Created at",
+    icon: Clock
+  },
+  {
+    name: "Last edited",
+    icon: Clock
+  },
+  {
+    name: "New Field",
+    icon: Tags
   },
 ]
