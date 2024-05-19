@@ -11,7 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { navbarComponents } from "@/lib/constants";
-import { MoveRight, Menu, X } from "lucide-react";
+import { MoveRight, Menu, X, ArrowRight } from "lucide-react";
 import MobileNav from "./MobileNav";
 
 interface INavbar {
@@ -21,7 +21,7 @@ interface INavbar {
 const Navbar = ({ doesSessionExist }: INavbar) => {
   const [toogleMobileNav, setToogleMobileNav] = useState(false)
   return (
-    <div className="pt-[32px] pb-[32px] w-full">
+    <div className="pt-[32px] pb-[32px] w-full border-b-slate-400 border-b-2">
       <div className="flex space-between pl-[24px] pr-[24px]">
         <div className="justify-between ml-auto mr-auto w-full flex items-center">
           <div>
@@ -37,9 +37,9 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
             </div>
             <div className="hidden md:flex">
               <NavigationMenu className="mr-5 bg-transparent">
-                <NavigationMenuList className="space-x-10">
+                <NavigationMenuList className="space-x-10 text-md">
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-lg bg-transparent">
+                    <NavigationMenuTrigger className="bg-transparent">
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -56,18 +56,31 @@ const Navbar = ({ doesSessionExist }: INavbar) => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href={"/pricing"} className="text-lg inline">
+                    <Link href={"/pricing"} className="inline">
                       Pricing
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href={"/docs"} className="text-lg inline">
-                      Documentation
+                    <Link href={"/docs"} className="inline">
+                      Docs
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link href={"/docs"} className="inline">
+                      About
                     </Link>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
               <div className="inline-flex"></div>
+            </div>
+          </div>
+          <div className="space-x-5 hidden md:flex text-sm">
+            <div className="p-2 hover:border-slate-400">
+              <Link href='/signup'>Sign in</Link>
+            </div>
+            <div className="px-4 py-2 hover:animate-wiggle hover:border-slate-400 rounded-md shadow-md bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl">
+              <Link href='/signin' className="space-x-2 flex ">Sign up <ArrowRight className="scale-75" /> </Link>
             </div>
           </div>
         </div>

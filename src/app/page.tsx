@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <RecoilRoot>
       <main className="homepage-color text-white h-full w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2]">
-        <div className="absolute pointer-events-none inset-0 dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        {/* <div className="absolute pointer-events-none inset-0 dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div> */}
           <Navbar doesSessionExist={doesSessionExist} />
           <div className="flex justfiy-center items-center mt-10">
             <Hero doesSessionExist={doesSessionExist} />

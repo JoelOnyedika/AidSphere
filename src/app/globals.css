@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* linear-gradient(to top, , rgba(14, 20, 37, .88) 65%, #0e1425 80%) */
 .homepage-color {
-    background-image: linear-gradient(to top, rgba(6, 14, 36, 0), rgba(14, 20, 37, .88) 65%, #0e1425 80%);
+    background-color: rgba(6, 14, 36, 0);
 }
 
 .title-hero {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white 70%);
 }
 
-.blur-rotated {
+/* .blur-rotated {
     height: 350px;
     background-image: linear-gradient(rgba(87, 196, 255, .15), rgba(0, 49, 209, .15));
     margin-top: auto;
@@ -21,7 +21,7 @@
     bottom: auto;
     transform: rotate(35deg);
     opacity: .5;
-}
+} */
 .neon-blue  {
     text-shadow: 0 0 20px rgba(50, 125, 255, .5);
     color: #327dff;

@@ -16,7 +16,7 @@ const Hero = ({ doesSessionExist }: IHero) => {
       {/* header text start */}
       <section className=" text-center">
         <div className="r">
-          <h1 className="text-[50px] font-extrabold">AI Support</h1>
+          <h1 className="text-[50px] font-extrabold neon-blue">AI Support</h1>
           <span className="text-[50px] font-extrabold">for your Startups</span>
         </div>
         <div className="mt-5">
@@ -114,6 +114,21 @@ const Hero = ({ doesSessionExist }: IHero) => {
               "linear-gradient(to right, transparent 10%, #ffffff 50%, transparent 90%)",
           }}
         />
+      </section>
+
+      <section>
+      <div className="text-center space-y-5">
+            <div className="flex flex-col items-center">
+              <h2 className="text-[30px] font-extrabold">
+                Spend less time on support
+              </h2>
+            </div>
+            <div className="mt-5 mb-5">
+              <p>
+              A complete support ecosystem to help you spend less time supporting your users - and more time growing your business.
+              </p>
+            </div>
+          </div>
       </section>
 
       {/* connect tools start */}

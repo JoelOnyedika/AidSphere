@@ -1,5 +1,5 @@
 import React from "react";
-import  {X } from 'lucide-react'
+import  {ArrowRight, X } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -52,12 +52,9 @@ const MobileNav = () => {
             </Link>
           </NavigationMenuItem>
           <div className="flex mt-10 justify-between items-center w-full">
-            <div className="mb-5 w-full flex">
-              <Link href="/dashboard" className="text-md inline p-2 bg-purple-400 rounded-md">
-                Login
-              </Link>
-              </div>
-
+          <div className="px-4 py-2 hover:animate-wiggle hover:border-slate-400 rounded-md shadow-md bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl">
+              <Link href='/login' className="space-x-2 flex ">Login <ArrowRight className="scale-75" /> </Link>
+            </div>
           </div>
         </NavigationMenuList>
       </NavigationMenu>
