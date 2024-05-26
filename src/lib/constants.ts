@@ -422,3 +422,31 @@ export const TicketVisualizerStatusMainFormData = [
     icon: Tags
   },
 ]
+
+export const landingPageSupportCards = [
+  {
+    icon: Bot,
+    title: "AI Chatbot",
+    description: 'Create an AI chatbot and make it an expert on your business.'
+  },{
+    icon: Bot,
+    title: "Ticket Form",
+    description: 'Create a custom ticket form to collect information from your users.'
+  },{
+    icon: Bot,
+    title: "Email Inbox",
+    description: 'Handle incoming support emails from one unified inbox.'
+  },{
+    icon: Bot,
+    title: "FAQs and Knowledge Base",
+    description: 'Create a knowledge base for both users and support to search for answers.'
+  },{
+    icon: Bot,
+    title: "Identify knowledge gaps",
+    description: 'Identify knowledge gaps, improve and retrain your AI models.'
+  },{
+    icon: Bot,
+    title: "SDKs, APIs & Webhooks",
+    description: 'Our solution is built to be integrated with your existing tools.'
+  },
+]

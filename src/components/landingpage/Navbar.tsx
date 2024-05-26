@@ -21,7 +21,7 @@ interface INavbar {
 const Navbar = ({ doesSessionExist }: INavbar) => {
   const [toogleMobileNav, setToogleMobileNav] = useState(false)
   return (
-    <div className="pt-[32px] pb-[32px] w-full border-b-slate-400 border-b-2">
+    <div className="pt-[32px] pb-[32px] w-full border-b-slate-400 border-b-2" >
       <div className="flex space-between pl-[24px] pr-[24px]">
         <div className="justify-between ml-auto mr-auto w-full flex items-center">
           <div>
