@@ -79,7 +79,7 @@ export const openaiKey = pgTable('openai_keys', {
 
 export const userSubcription = pgTable("user_subscription", {
   id: uuid("id").primaryKey().notNull(),
-  userId: uuid("user_id").references(() => users.id, {onDelete: 'cascade'}),
+  userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   planId: uuid("user_id").references(() => subscriptionPlan.id, {onDelete: 'cascade'}),  
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
@@ -272,7 +272,6 @@ export const ticketCustomization = pgTable("ticket_customization", {
       .notNull(),
   });
 
-c
   
 export const ticketField = pgTable("ticket_field", {
   id: uuid("id").primaryKey().notNull(),
