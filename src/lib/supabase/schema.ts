@@ -8,18 +8,23 @@ import {
   integer,
   pgEnum,
 } from "drizzle-orm/pg-core";
-import { users } from "../../../migrations/schema";
+// import { users } from "../../../migrations/schema";
 // import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 // import { cookies } from "next/headers";
 // const supabase = createRouteHandlerClient({ cookies });
 
 // const { data } = await supabase.from("users").select("*").eq("email", email);
 
-export const users = pgTable("users", {
-	id: uuid("id").primaryKey().notNull(),
+const pricingType = pgEnum('pricing_types', ['Free', 'Standard', 'Pro', 'Expert'])
+const memberStatus = pgEnum('member_status', ['Owner', 'Invited'])
+
+
+export const profile = pgTable("profile", {
+	user_id: uuid("id").primaryKey().notNull(),
 	email: text("email"),
 	username: text("username"),
 	profileImg: text("profile_img"),
+  subcriptionPlan: pricingType('plan_name').default('Free'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
@@ -27,19 +32,17 @@ export const users = pgTable("users", {
 
 export const setting = pgTable('setting', {
   id: uuid("id").primaryKey().notNull(),
-  userId: uuid("user_id").references(() => users.id, {onDelete: 'cascade'}),
+  userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   tewntyFourHourTime: boolean('twenty_four_hour_time').default(true),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
 })
 
-const pricingType = pgEnum('pricing_types', ['Free', 'Standard', 'Pro', 'Expert'])
-const memberStatus = pgEnum('member_status', ['Owner', 'Invited'])
 
 export const member = pgTable('member', {
   id: uuid("id").primaryKey().notNull(),
-  userId: uuid("user_id").references(() => users.id, {onDelete: 'cascade'}),
+  userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   name: text('name').notNull(),
   status: memberStatus('status'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
@@ -57,7 +60,7 @@ export const subscriptionPlan = pgTable('subscription_plan', {
 
 export const apiKey = pgTable('api_keys', {
   id: uuid("id").primaryKey().notNull(),
-  userId: uuid("user_id").references(() => users.id, {onDelete: 'cascade'}),
+  userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   apiKey: text('api_key'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
@@ -66,7 +69,7 @@ export const apiKey = pgTable('api_keys', {
 
 export const openaiKey = pgTable('openai_keys', {
   id: uuid("id").primaryKey().notNull(),
-  userId: uuid("user_id").references(() => users.id, {onDelete: 'cascade'}),
+  userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   openaiKey: text('openai_key'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
