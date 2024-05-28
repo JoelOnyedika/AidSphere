@@ -3,11 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import db from "@/lib/supabase/db";
+// import db from "@/lib/supabase/db";
 import RecoilContextProvider from "@/lib/recoil/recoilContextProvider";
 const inter = Inter({ subsets: ["latin"] });
 
-//console.log(db)
+// console.log(db)
 
 export const metadata: Metadata = {
   title: "Aidsphere - AI support for your Saas startups",

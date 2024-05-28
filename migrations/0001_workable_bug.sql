@@ -1,0 +1,1 @@
+ALTER TABLE "member" ALTER COLUMN "status" SET DATA TYPE text;

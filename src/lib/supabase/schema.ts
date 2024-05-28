@@ -15,16 +15,16 @@ import {
 
 // const { data } = await supabase.from("users").select("*").eq("email", email);
 
-const pricingType = pgEnum('pricing_types', ['Free', 'Standard', 'Pro', 'Expert'])
-const memberStatus = pgEnum('member_status', ['Owner', 'Invited'])
+// const pricingType = pgEnum('pricing_types', ['Free', 'Standard', 'Pro', 'Expert'])
+// const memberStatus = pgEnum('member_status', ['Owner', 'Invited'])
 
 
 export const profile = pgTable("profile", {
-	user_id: uuid("id").primaryKey().notNull(),
+	id: uuid("id").primaryKey().notNull(),
 	email: text("email"),
 	username: text("username"),
 	profileImg: text("profile_img"),
-  subcriptionPlan: pricingType('plan_name').default('Free'),
+  subcriptionPlan: text('plan_name').default('Free'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
@@ -44,7 +44,7 @@ export const member = pgTable('member', {
   id: uuid("id").primaryKey().notNull(),
   userId: uuid("user_id").references(() => profile.id, {onDelete: 'cascade'}),
   name: text('name').notNull(),
-  status: memberStatus('status'),
+  status: text('status').default('Owner'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
@@ -52,7 +52,7 @@ export const member = pgTable('member', {
 
 export const subscriptionPlan = pgTable('subscription_plan', {
   id: uuid("id").primaryKey().notNull(),
-  planName: pricingType('plan_name').default('Free'),
+  planName: text('plan_name').default('Free'),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
@@ -242,7 +242,7 @@ export const chatMessage = pgTable("chat_message", {
 });
 
 //////////////////////////////// TICKET FORM SCHEMA ////////////////////////////////
-export const ticket = pgTable("ticket,", {
+export const ticket = pgTable("ticket", {
   id: uuid("id").primaryKey().notNull(),
   userId: uuid("user_id").notNull(),
   name: text("name").notNull().default("Untitled"),
@@ -332,7 +332,7 @@ export const ticketMessage = pgTable("ticket_message", {
 
 //////////////////////////////// Email SCHEMA ////////////////////////////////
 
-export const email = pgTable("email,", {
+export const email = pgTable("email", {
   id: uuid("id").primaryKey().notNull(),
   userId: uuid("user_id").notNull(),
   name: text("name").notNull().default("Untitled"),

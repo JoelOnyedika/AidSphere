@@ -1,1 +1,0 @@
-ALTER TABLE "videos" ADD COLUMN "yt_video_id" text NOT NULL;
