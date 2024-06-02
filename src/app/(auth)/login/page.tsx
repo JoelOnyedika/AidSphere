@@ -19,9 +19,12 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 import Loader from "@/components/global/loader";
-import { actionLoginUser, createSessionCookie } from "@/lib/server-actions/auth-actions";
+import { actionLoginUser, createSessionCookie, signUpWithOAuth } from "@/lib/server-actions/auth-actions";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { FcGoogle } from "react-icons/fc";
+import { BsGithub } from "react-icons/bs";
+
 
 const Login = () => {
   const router = useRouter();
@@ -55,6 +58,22 @@ const Login = () => {
     }
   };
 
+  const handleSignupWithOAuth = async (provider) => {
+  try {
+    const result = await signUpWithOAuth(provider);
+    if (result.error) {
+      setSubmitError(result.error.message);
+    } else {
+      console.log('OAuth process successful:', result);
+      router.push(result.data.url);
+
+    }
+  } catch (error) {
+    console.log(error);
+    setSubmitError("An unexpected error occurred");
+  }
+};
+
   return (
     <div className="ml-auto mr-auto  bg-[#0e1425] text-white">
       <div className="flex flex-col justify-center items-center h-screen">
@@ -70,10 +89,18 @@ const Login = () => {
         <div className="bg-inherit p-6 rounded-lg shadow-md">
           <div className="mb-5">
             <div>
-              <Button className="w-full bg-blue-700 py-2 px-4 flex items-center hover:bg-blue-500">
-                <img src="../../../../public/icons/google.png" alt="" />
-                Sign in with Google
-              </Button>
+              <div className="mb-5">
+        <div className="space-y-3">
+          <Button className="w-full space-x-2 py-2 px-4 flex items-center hover:bg-blue-500" variant={"blue"}  onClick={() => handleSignupWithOAuth('google')}>
+            <FcGoogle size={30} className="mr-2" /> {/* Increase size to 30 */}
+            Continue with Google
+          </Button>
+          <Button className="w-full space-x-2 py-2 px-4 flex items-center hover:bg-blue-500" variant={"blue"} onClick={() => handleSignupWithOAuth('github')}>
+            <BsGithub size={30} className="mr-2" /> {/* Increase size to 30 */}
+            Continue with GitHub
+          </Button>
+        </div>
+      </div>
             </div>
           </div>
           <Form {...form}>

@@ -47,3 +47,6 @@ The middleware file found in the `./` dir always check if the user is authentica
 
 ## ORM MIGRTIONS
 For migrating, first create a migration schema file named schema in the supabase folder located in the lib folder📂 and then run `npm run generate` to create a migrations script in SQL. Then run `npm run push` to make changes and then after that run the db in the lib folder by importing it in the root layout page to migrate the changes.
+
+## HANDLING PROFILES
+Due to Supabase insecurty with the auth.users table you cannot directly add a column to the users table so after migration. you will need to go to the supabase sql editor and write a trigger or function that copies the users id and email and put them in the `profile` table 
